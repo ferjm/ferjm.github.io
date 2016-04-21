@@ -1,0 +1,84 @@
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>ferjm</title><description>coding out loud</description><link>http://localhost:2368/</link><generator>Ghost 0.7</generator><lastBuildDate>Thu, 21 Apr 2016 09:55:31 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Improving the Firefox OS Contacts application start-up time</title><description>&lt;p&gt;One of the biggest challenges that we have in Firefox OS is the &lt;a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Performance_fundamentals"&gt;performance&lt;/a&gt;. We have been fighting it since day one and by applying some &lt;a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Optimizing_startup_performance"&gt;different techniques&lt;/a&gt; we managed to get to a point where we have some very decent &lt;a href="https://datazilla.mozilla.org/b2g"&gt;application start-up time numbers&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The last application to get&lt;/p&gt;</description><link>http://localhost:2368/improving-fxos-contacts-app-performance/</link><guid isPermaLink="false">638cb16d-75a5-4aec-9498-35bc5535df59</guid><category>firefoxos</category><category>performance</category><category>contacts</category><dc:creator>Fernando Jiménez Moreno</dc:creator><pubDate>Wed, 11 Mar 2015 11:05:21 GMT</pubDate><content:encoded>&lt;p&gt;One of the biggest challenges that we have in Firefox OS is the &lt;a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Performance_fundamentals"&gt;performance&lt;/a&gt;. We have been fighting it since day one and by applying some &lt;a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Optimizing_startup_performance"&gt;different techniques&lt;/a&gt; we managed to get to a point where we have some very decent &lt;a href="https://datazilla.mozilla.org/b2g"&gt;application start-up time numbers&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;The last application to get a considerable performance boost has been the Contacts application.&lt;/p&gt;
+
+&lt;p&gt;During the last few weeks, the Contacts team &lt;a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1112551"&gt;has been working&lt;/a&gt; on a &lt;a href="https://github.com/mozilla-b2g/gaia/commit/f1d0684817e5802961c02a04dcf667cfaf09d6ee"&gt;patch&lt;/a&gt; that finally landed on master yesterday. The result is an improvement of around 720 milliseconds of &lt;a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Firefox_OS_app_responsiveness_guidelines#Stages"&gt;perceived start-up time&lt;/a&gt;, which means that we saved almost 50% of the previous start-up time.&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://datazilla.mozilla.org/b2g/?branch=master&amp;amp;device=flame-319MB&amp;amp;range=7&amp;amp;test=startup_%3E_moz-app-visually-complete&amp;amp;app_list=communications/contacts&amp;amp;app=communications/contacts&amp;amp;gaia_rev=9645d45d5777880e&amp;amp;gecko_rev=f6259882882b&amp;amp;plot=median"&gt;Datazilla&lt;/a&gt; already shows the change.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2015/03/contactsperfimprovement-1.png" alt="Datazilla changes"&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href="https://github.com/stasm/test-perf-summary"&gt;Comparing&lt;/a&gt; the results of running the &lt;a href="https://developer.mozilla.org/en-US/Firefox_OS/Platform/Automated_testing/Gaia_performance_tests"&gt;Gaia performance tests&lt;/a&gt; with a heavy workload before and after the patch we get the following numbers:&lt;/p&gt;
+
+&lt;table&gt;  
+    &lt;tr&gt;
+        &lt;th&gt;communications/contacts (means in ms)&lt;/th&gt;
+        &lt;th&gt;Base&lt;/th&gt;
+        &lt;th&gt;Patch&lt;/th&gt;
+        &lt;th&gt;Δ&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;th&gt;moz-chrome-dom-loaded&lt;/th&gt;
+        &lt;th&gt;1147&lt;/th&gt;
+        &lt;th&gt;585&lt;/th&gt;
+        &lt;th&gt;-562&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;th&gt;moz-chrome-interactive&lt;/th&gt;
+        &lt;th&gt;1267&lt;/th&gt;
+        &lt;th&gt;1393&lt;/th&gt;
+        &lt;th&gt;126&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;th&gt;moz-app-visually-complete&lt;/th&gt;
+        &lt;th&gt;1601&lt;/th&gt;
+        &lt;th&gt;874&lt;/th&gt;
+        &lt;th&gt;-727&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;th&gt;moz-content-interactive&lt;/th&gt;
+        &lt;th&gt;2131&lt;/th&gt;
+        &lt;th&gt;1393&lt;/th&gt;
+        &lt;th&gt;-738&lt;/th&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+        &lt;th&gt;moz-app-loaded&lt;/th&gt;
+        &lt;th&gt;10942&lt;/th&gt;
+        &lt;th&gt;10409&lt;/th&gt;
+        &lt;th&gt;-533&lt;/th&gt;
+    &lt;/tr&gt;
+&lt;/table&gt;
+
+&lt;p&gt;As you can see we are sending the &lt;code&gt;moz-app-visually-complete&lt;/code&gt; event ~727 milliseconds earlier than before. This is the event that we use to indicate that the application appears visually ready for user interaction and the one that we really want to send as soon as possible. We also get similar improvements for the &lt;code&gt;moz-chrome-dom-loaded&lt;/code&gt;, &lt;code&gt;moz-content-interactive&lt;/code&gt; and &lt;code&gt;moz-app-loaded&lt;/code&gt; events. You can also notice that we had to make some trade offs and we lost some ground with the &lt;code&gt;moz-chrome-interactive&lt;/code&gt; event. If you look closer, you will see that chrome and content are marked as interactive at the same time. This was not happening before. We were not able to interact with the application content until almost one second after being able to interact with the application chrome. Now we have everything ready at once ~700 milliseconds before and given that the most important part of the Contacts application is the contacts data itself, we consider that the small lost in the &lt;code&gt;moz-chrome-interactive&lt;/code&gt; event is worth the result. You can check the &lt;a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Firefox_OS_app_responsiveness_guidelines#Stages"&gt;MDN responsiveness guidelines&lt;/a&gt; page for more details about these events.&lt;/p&gt;
+
+&lt;p&gt;I recorded a quick video comparing the previous situation (left) with the current one (right). &lt;small&gt;(Apologies for the low quality of the recording)&lt;/small&gt;.&lt;/p&gt;
+
+&lt;iframe src="https://player.vimeo.com/video/121901924" width="600" height="381" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;h2 id="howdidwegetthere"&gt;How did we get there&lt;/h2&gt;
+
+&lt;p&gt;The target was to have some usable UI ready as soon as possible before the browser painted anything on the screen. For us, this usable UI is the application chrome with the &lt;code&gt;Add contact&lt;/code&gt; and &lt;code&gt;Settings&lt;/code&gt; options and the first chunk of contacts, including favorite and &lt;a href="http://en.wikipedia.org/wiki/In_case_of_emergency"&gt;ICE&lt;/a&gt; contacts.&lt;/p&gt;
+
+&lt;p&gt;So far we were not doing bad showing the application chrome, but we were taking extra time to load the first group of visible contacts. To show this first content we needed to do a request to the &lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/Navigator/mozContacts"&gt;MozContacts API&lt;/a&gt; to obtain the list of stored contacts and start appending to the DOM one new node per each contact information retrieved. The thing is that the result of this request rarely changed from one execution to the other. So why not caching it?&lt;/p&gt;
+
+&lt;p&gt;We followed the same approach that the Email team already applied on the &lt;a href="https://groups.google.com/forum/#!topic/mozilla.dev.gaia/v_jVuwOJMKI"&gt;Email application&lt;/a&gt; for caching the email list. We used &lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage"&gt;localStorage&lt;/a&gt; to save the result of getting the contacts list from the MozContacts API and rendering the first chunk of contacts. To avoid having to do object serialization and parsing before and after accessing the localStorage item, we initially tried storing the whole &lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/outerHTML"&gt;outerHTML&lt;/a&gt; string of the &lt;a href="https://github.com/mozilla-b2g/gaia/blob/master/apps/communications/contacts/index.html#L218"&gt;contacts groups container&lt;/a&gt; holding the first chunk of contacts and applying it via &lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML"&gt;innerHTML&lt;/a&gt;, but that did not give good enough performance and it made the logic for managing the contacts cache harder. Also, in the end we figured out that we needed to store other information like the language direction or the cache date along with the HTML to decide wether the cache was valid or not, so object serialization and parsing was required in any case. Instead of that, we ended up storing an object with this information to ease the cache eviction decision and enough information to rebuild the DOM containing the first chunk of contacts. We applied this data to the DOM via &lt;a href="https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment"&gt;documentFragment&lt;/a&gt;. You can checkout the code for &lt;a href="https://github.com/mozilla-b2g/gaia/blob/master/apps/communications/contacts/js/views/list.js#L2274"&gt;building&lt;/a&gt; and &lt;a href="https://github.com/mozilla-b2g/gaia/blob/master/apps/communications/contacts/js/bootstrap.js#L173"&gt;applying&lt;/a&gt; the cache.&lt;/p&gt;
+
+&lt;p&gt;The trickiest part of maintaining this cache is the eviction policy. We need to evict and rebuild the cache every time a contact is changed (added, removed or edited) and because this can happen from inside and from outside of the Contacts app (even when the app is closed), we need to be specially careful and verify the cache after applying it to the DOM without affecting the performance or causing visual reflows. You can follow &lt;a href="https://github.com/mozilla-b2g/gaia/blob/master/apps/communications/contacts/js/views/list.js#L2375"&gt;this code&lt;/a&gt; to see how we managed to do that. Other scenarios where we need to evict the cache are language direction changes, &lt;a href="http://en.wikipedia.org/wiki/In_case_of_emergency"&gt;ICE&lt;/a&gt; contacts changes, favorite contacts modifications and when the user changes the way the contacts are displayed (by first or last name).&lt;/p&gt;
+
+&lt;p&gt;Apart from building the cache mechanism we also changed the application bootstrap process in a way that we only load the minimum set of scripts required to get the cached information from localStorage and to apply it in the DOM. Once we have this process completed, we load the rest of the application Javascript that is required to continue the rest of the boot process. You can see this logic in the new &lt;a href="https://github.com/mozilla-b2g/gaia/blob/master/apps/communications/contacts/js/bootstrap.js#L410"&gt;bootstrap&lt;/a&gt; script.&lt;/p&gt;
+
+&lt;h2 id="nextsteps"&gt;Next steps&lt;/h2&gt;
+
+&lt;p&gt;We want to keep improving the performance of the Contacts application. The next thing that we want to target is improving the loading of the contacts thumbnails. In fact, &lt;a href="https://twitter.com/mepartoconmigo"&gt;Francisco Jordano&lt;/a&gt; has already started working on &lt;a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1089538"&gt;it&lt;/a&gt; and there are already some visible improvements.&lt;/p&gt;
+
+&lt;iframe width="600" height="381" src="https://www.youtube.com/embed/lOx-Ym2qUlM" frameborder="0" allowfullscreen&gt;&lt;/iframe&gt;
+
+&lt;p&gt;We also want to experiment with caching most part or even the whole contacts list in different chunks to allow the user to use the alpha scrolling and to get a fully loaded application even sooner.&lt;/p&gt;
+
+&lt;p&gt;Finally, the Gaia team is starting to play around with &lt;a href="http://www.html5rocks.com/en/tutorials/service-worker/introduction/"&gt;Service Workers&lt;/a&gt; and with the idea of using this new feature to cache already rendered views in a similar way that we did for Contacts. I cannot wait to see more progress on this area :)&lt;/p&gt;
+
+&lt;h2 id="credits"&gt;Credits&lt;/h2&gt;
+
+&lt;p&gt;&lt;a href="https://twitter.com/mepartoconmigo"&gt;Francisco Jordano&lt;/a&gt;, &lt;a href="https://github.com/JohanLorenzo"&gt;Johan Lorenzo&lt;/a&gt;, &lt;a href="http://sergimansilla.com/"&gt;Sergi Mansilla&lt;/a&gt;.&lt;/p&gt;</content:encoded></item></channel></rss>
