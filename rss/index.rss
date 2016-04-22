@@ -1,4 +1,76 @@
-<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>ferjm</title><description>coding out loud</description><link>http://localhost:2368/</link><generator>Ghost 0.7</generator><lastBuildDate>Thu, 21 Apr 2016 09:55:31 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Improving the Firefox OS Contacts application start-up time</title><description>&lt;p&gt;One of the biggest challenges that we have in Firefox OS is the &lt;a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Performance_fundamentals"&gt;performance&lt;/a&gt;. We have been fighting it since day one and by applying some &lt;a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Optimizing_startup_performance"&gt;different techniques&lt;/a&gt; we managed to get to a point where we have some very decent &lt;a href="https://datazilla.mozilla.org/b2g"&gt;application start-up time numbers&lt;/a&gt;.&lt;/p&gt;
+<rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:media="http://search.yahoo.com/mrss/" version="2.0"><channel><title>ferjm</title><description>coding out loud</description><link>http://localhost:2368/</link><generator>Ghost 0.7</generator><lastBuildDate>Fri, 22 Apr 2016 18:46:29 GMT</lastBuildDate><atom:link href="http://localhost:2368/rss/" rel="self" type="application/rss+xml"/><ttl>60</ttl><item><title>Project Link Networking</title><description>&lt;p&gt;For the last few months I have been involved in &lt;a href="https://wiki.mozilla.org/Project_Link"&gt;Project Link&lt;/a&gt;, one of Mozilla's &lt;a href="https://wiki.mozilla.org/Connected_Devices"&gt;Connected Devices&lt;/a&gt; new research projects that aims to create a personal User Agent for the smart homes.&lt;/p&gt;
+
+&lt;p&gt;We have recently completed our &lt;a href="https://wiki.mozilla.org/Project_Link#Phase_1"&gt;first milestone&lt;/a&gt; where we managed to prototype a device that is able to&lt;/p&gt;</description><link>http://localhost:2368/project-link-networking/</link><guid isPermaLink="false">7cb1cb5e-95bb-42ec-91c7-5c5bafc5e7a9</guid><dc:creator>Fernando Jiménez Moreno</dc:creator><pubDate>Fri, 22 Apr 2016 17:15:59 GMT</pubDate><content:encoded>&lt;p&gt;For the last few months I have been involved in &lt;a href="https://wiki.mozilla.org/Project_Link"&gt;Project Link&lt;/a&gt;, one of Mozilla's &lt;a href="https://wiki.mozilla.org/Connected_Devices"&gt;Connected Devices&lt;/a&gt; new research projects that aims to create a personal User Agent for the smart homes.&lt;/p&gt;
+
+&lt;p&gt;We have recently completed our &lt;a href="https://wiki.mozilla.org/Project_Link#Phase_1"&gt;first milestone&lt;/a&gt; where we managed to prototype a device that is able to communicate with a small set of other different devices through some wireless communication protocols like &lt;a href="https://en.wikipedia.org/wiki/ZigBee"&gt;Zigbee&lt;/a&gt; and &lt;a href="https://en.wikipedia.org/wiki/Z-Wave"&gt;Z-Wave&lt;/a&gt; and that exposes an &lt;a href="https://wiki.mozilla.org/Connected_Devices/Projects/Project_Link/Taxonomy#Current_REST_API"&gt;HTTP API&lt;/a&gt; for clients to get moderated access to these devices through the Link hub. So as today, we are able to setup a Link device in a network where other devices like a set of smart light bulbs, a smart door lock and a motion sensor are connected and we are able to create rules, from inside and outside of that network, to do things like turning off the lights, locking the door and sending a notification when the motion sensor detects that the user leaves her home.&lt;/p&gt;
+
+&lt;p&gt;Making Link communicate with the different devices through Zigbee or Z-Wave was certainly not an easy task and it required a lot of effort from many members of the team. But it was something that somehow we knew that we could do. In the end, these are known protocols, and even if we had to write a lot of code from scratch because of the choice of technology (&lt;a href="https://www.rust-lang.org/"&gt;Rust&lt;/a&gt;), there are already a lot of products in the market based on these technologies and a few examples of code that we could take as a starting point for our work.&lt;/p&gt;
+
+&lt;p&gt;To me, one of the most interesting challenges that we had to face during this initial stage of the project has been how to discover and securely connect to Link (a.k.a &lt;em&gt;the box&lt;/em&gt;) from the client side while keeping a decent UX.&lt;/p&gt;
+
+&lt;p&gt;As Mozillians, &lt;a href="https://www.youtube.com/watch?v=Aw4mTrFW9sU"&gt;we believe in the power of the web&lt;/a&gt;, so one of our self-imposed initial requirements for this project was that we wanted our &lt;a href="https://github.com/fxbox/app"&gt;client demo application&lt;/a&gt; to be written entirely with web technologies. We wanted to make this client potentially able to run on any platform with a modern web browser. And there were also other requirements:&lt;/p&gt;
+
+&lt;ul&gt;
+&lt;li&gt;This client had to be able to access Link locally, from the same network where the Link device was running on, but also remotely, from outside of that network.&lt;/li&gt;
+&lt;li&gt;The connection between Link and the client had to be securely encrypted in both cases (local and remote access).&lt;/li&gt;
+&lt;li&gt;And both things needed to happen seamlessly and transparently for the user.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;&lt;a href="http://michielbdejong.com/"&gt;Michiel B. de Jong&lt;/a&gt; did an excellent research work about the discovery and secure connection area and he proposed a few &lt;a href="https://github.com/fxbox/RFC/issues/3"&gt;different solutions&lt;/a&gt; to these problems, that included different combinations of cloud, &lt;a href="https://en.wikipedia.org/wiki/QR_code"&gt;QR codes&lt;/a&gt;, &lt;a href="https://letsencrypt.org/"&gt;Let's Encrypt&lt;/a&gt;, &lt;a href="https://en.wikipedia.org/wiki/Multicast_DNS"&gt;mDNS&lt;/a&gt; and other technologies and protocols.&lt;/p&gt;
+
+&lt;p&gt;While we do not discard implementing any other of these proposals for the next phases of the project, for the initial prototype we ended up choosing a solution that most part of the team considered that had a good balance between security, privacy and user friendly experience and that could work cross platform and cross browser, taking advantage of the full power of the web.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Discovering the box&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;For the discovery part, we implemented the same mechanism that Philips uses to discover their &lt;a href="http://www.developers.meethue.com/documentation/getting-started"&gt;Hue Lights Bridge&lt;/a&gt;. They call this &lt;em&gt;nUPNP&lt;/em&gt; (network UPNP). And it is pretty simple. It requires Link to periodically register itself with a server in the cloud that has a known URL for the client. The data that is stored for this registration is a match between Link's public and local IP addresses. To get the local address, the client just needs to do a HTTP GET request to the registration server &lt;em&gt;ping&lt;/em&gt; endpoint, which should return a JSON object containing this information. This request has to be done from the same network Link is connected to.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Securely connecting to the box&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, we cannot securely connect to local IP addresses through HTTPS. At least not with a proper UX that would not require a terrified user to accept warnings about &lt;a href="https://support.cdn.mozilla.net/media/uploads/gallery/images/2011-10-19-09-09-25-5809bb.jpg"&gt;insecure connections&lt;/a&gt;, and even in that case (with a self-signed certificate), it would be quite a poor security solution. We needed host names and a trusted &lt;a href="https://en.wikipedia.org/wiki/Certificate_authority"&gt;CA&lt;/a&gt; for this. And here is where Let'sEncrypt and &lt;a href="https://blog.filippo.io/how-plex-is-doing-https-for-all-its-users/"&gt;Plex's solution&lt;/a&gt; enter in the game.&lt;/p&gt;
+
+&lt;p&gt;We heard about this company called Plex that has a very similar use case as ours and that is offering secure TLS connections to all their users. They have these media servers that users can self-host in their machines and can access to them securely from other devices. You can read about the details of Plex's implementation in this &lt;a href="https://blog.filippo.io/how-plex-is-doing-https-for-all-its-users/"&gt;blog post&lt;/a&gt; and see how it slightly defers from ours.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Remotely accessing the box (a.k.a tunneling)&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;To provide remote access to Link for those users that choose to have this kind of feature, we initially tried to use &lt;a href="https://ngrok.com/"&gt;ngrok&lt;/a&gt;, but we found out that they do not support &lt;a href="https://es.wikipedia.org/wiki/Server_Name_Indication"&gt;SNI&lt;/a&gt; on their open source version. So we ended up moving to &lt;a href="https://pagekite.net/"&gt;PageKite&lt;/a&gt;, which offers the same core functionality but also provides SNI support.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Putting it all together&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;With all the above we ended up implementing the following bootstrap process for Link:&lt;/p&gt;
+
+&lt;ol&gt;
+&lt;li&gt;Link exposes HTTP and WebSockets services.  &lt;/li&gt;
+&lt;li&gt;First thing that Link does is to generate a self-signed certificate that becomes its identifier.  &lt;/li&gt;
+&lt;li&gt;It connects to an &lt;a href="https://github.com/fxbox/dns-server"&gt;API&lt;/a&gt; on &lt;code&gt;knilxof.org&lt;/code&gt; (our dev server) to create its public DNS zone under &lt;code&gt;&amp;lt;fingerprint&amp;gt;.knilxof.org&lt;/code&gt;, using its self-signed certificate as a client certificate. The API server checks the fingerprint from the DNS zone edit request against the fingerprint of the client certificate presented.  &lt;/li&gt;
+&lt;li&gt;Now that the Box has a public DNS zone it can control, it can get a LetsEncrypt certificate, using the &lt;a href="https://letsencrypt.github.io/acme-spec/#rfc.section.7.4"&gt;DNS-01 challenge&lt;/a&gt;.  &lt;/li&gt;
+&lt;li&gt;Link sets its main DNS A record to its current &lt;strong&gt;local&lt;/strong&gt; IP address which it obtained via DHCP earlier. It will update this A record whenever its local IP address changes.  &lt;/li&gt;
+&lt;li&gt;It also sets two or more mirror A records to its current local IP address. The idea here being that only one of the records will be cached by caching DNS servers, so switching to the other one at the right time will avoid downtime due to DNS propagation delays. This is currently not implemented.  &lt;/li&gt;
+&lt;li&gt;If Link is setup to allow remote access, it starts up a PageKite client, which connects to a PageKite frontend, and adds the IP address of the public interface to the PageKite frontend into its DNS zone.  &lt;/li&gt;
+&lt;li&gt;With the local, mirrors and tunneled URLs, Link sends a registration request to the nUPNP like &lt;a href="https://github.com/fxbox/registration_server"&gt;registration server&lt;/a&gt;.&lt;/li&gt;
+&lt;/ol&gt;
+
+&lt;p&gt;After the above process is completed, when the user browses to our &lt;a href="https://github.com/fxbox/app"&gt;client demo application&lt;/a&gt;, the app makes a cross-origin request to the registration server &lt;em&gt;ping&lt;/em&gt; endpoint to obtain the URLs the app can use to securely connect to Link.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class="language-ssh"&gt;GET /ping HTTP/1.1
+
+HTTP/1.1 200 OK  
+Access-Control-Allow-Origin: *  
+Access-Control-Allow-Headers: accept, authorization, content-type  
+Content-Type: application/json; charset=utf-8  
+Access-Control-Allow-Methods: GET, POST, PUT  
+Content-Length: 312  
+Date: Fri, 22 Apr 2016 14:39:44 GMT
+
+[{"public_ip":"88.xxx.xxx.xxx","client":"80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6","message":"{\"local_origin\":\"https://local.80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6.box.knilxof.org:3000\",\"tunnel_origin\":\"https://remote.80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6.box.knilxof.org\"}","timestamp":1461335726}]
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;The connection to the box is completely seamless for the user as she is never asked to enter a URL or to add any security exception on her browser.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src="http://localhost:2368/content/images/2016/04/Screen-Shot-2016-04-22-at-5-09-24-PM.png" alt=""&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Credits&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;Most part of the design and implementation work has been done by &lt;a href="http://michielbdejong.com/"&gt;Michiel B. de Jong&lt;/a&gt; and &lt;a href="https://twitter.com/samuelgiles_"&gt;Sam Giles&lt;/a&gt;.&lt;/p&gt;</content:encoded></item><item><title>Improving the Firefox OS Contacts application start-up time</title><description>&lt;p&gt;One of the biggest challenges that we have in Firefox OS is the &lt;a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Performance_fundamentals"&gt;performance&lt;/a&gt;. We have been fighting it since day one and by applying some &lt;a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Optimizing_startup_performance"&gt;different techniques&lt;/a&gt; we managed to get to a point where we have some very decent &lt;a href="https://datazilla.mozilla.org/b2g"&gt;application start-up time numbers&lt;/a&gt;.&lt;/p&gt;
 
 &lt;p&gt;The last application to get&lt;/p&gt;</description><link>http://localhost:2368/improving-fxos-contacts-app-performance/</link><guid isPermaLink="false">638cb16d-75a5-4aec-9498-35bc5535df59</guid><category>firefoxos</category><category>performance</category><category>contacts</category><dc:creator>Fernando Jiménez Moreno</dc:creator><pubDate>Wed, 11 Mar 2015 11:05:21 GMT</pubDate><content:encoded>&lt;p&gt;One of the biggest challenges that we have in Firefox OS is the &lt;a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Performance_fundamentals"&gt;performance&lt;/a&gt;. We have been fighting it since day one and by applying some &lt;a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Optimizing_startup_performance"&gt;different techniques&lt;/a&gt; we managed to get to a point where we have some very decent &lt;a href="https://datazilla.mozilla.org/b2g"&gt;application start-up time numbers&lt;/a&gt;.&lt;/p&gt;
 
