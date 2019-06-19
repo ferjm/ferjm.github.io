@@ -10,7 +10,7 @@ title: ferjm
 email: ferjmoreno@gmail.com
 description: coding out loud
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "http://yourdomain.com" # the base hostname & protocol for your site
+url: "https://ferjm.github.io" # the base hostname & protocol for your site
 twitter_username: f_jimenez
 github_username:  ferjm
 paginate: 5
