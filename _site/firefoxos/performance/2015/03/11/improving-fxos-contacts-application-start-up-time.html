@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Improving the Firefox OS Contacts application start-up time</title>
+  <meta name="description" content="One of the biggest challenges that we have in Firefox OS is the performance. We have been fighting it since day one and by applying some different techniques...">
+  <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic|Source+Sans+Pro:400,700,200,300|Josefin+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="canonical" href="http://localhost:4000/firefoxos/performance/2015/03/11/improving-fxos-contacts-application-start-up-time.html">
+  <link rel="alternate" type="application/rss+xml" title="ferjm" href="http://localhost:4000/feed.xml">
+</head>
+
+
+  <body class=" light  ">
+
+    
+<div class="wrapper">
+  <center> <a href="/index.html"><div class="site-title">   ferjm </div></a></center>
+</div>
+<div class="wrapper site-description">
+<center>  coding out loud </center>
+</div>
+<div class="wrapper">
+  <div class="trigger site-navigation">
+    <a class="page-link" href="http://localhost:4000">HOME</a>
+
+    
+    
+
+    <span class="exclamationMark">/</span><a class="page-link" href="/about/">About</a>
+    
+    
+    
+    
+    
+    
+    
+    
+  </div>
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline"><a class="post-title-link"  href="/firefoxos/performance/2015/03/11/improving-fxos-contacts-application-start-up-time.html">Improving the Firefox OS Contacts application start-up time</a></h1>
+  <center>  <p class="post-meta"><time datetime="2015-03-11T00:00:00+01:00" itemprop="datePublished">Mar 11, 2015</time></p>
+    
+     <div class="">
+       <center><p ><strong><span class="authorKeyword">Author</span><span class="small-site-title"> <h2 style="letter-spacing: 3px !important;
+       text-transform: uppercase !important;">Fernando Jiménez</h2></span></strong></p></center>
+
+     </div>
+     
+   </center>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>One of the biggest challenges that we have in Firefox OS is the <a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Performance_fundamentals">performance</a>. We have been fighting it since day one and by applying some <a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Optimizing_startup_performance">different techniques</a> we managed to get to a point where we have some very decent <a href="https://datazilla.mozilla.org/b2g">application start-up time numbers</a>.</p>
+
+<p>The last application to get a considerable performance boost has been the Contacts application.</p>
+
+<p>During the last few weeks, the Contacts team <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1112551">has been working</a> on a <a href="https://github.com/mozilla-b2g/gaia/commit/f1d0684817e5802961c02a04dcf667cfaf09d6ee">patch</a> that finally landed on master yesterday. The result is an improvement of around 720 milliseconds of <a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Firefox_OS_app_responsiveness_guidelines#Stages">perceived start-up time</a>, which means that we saved almost 50% of the previous start-up time.</p>
+
+<p><a href="https://datazilla.mozilla.org/b2g/?branch=master&amp;device=flame-319MB&amp;range=7&amp;test=startup_%3E_moz-app-visually-complete&amp;app_list=communications/contacts&amp;app=communications/contacts&amp;gaia_rev=9645d45d5777880e&amp;gecko_rev=f6259882882b&amp;plot=median">Datazilla</a> already shows the change.</p>
+
+<p><img src="/content/images/2015/03/contactsperfimprovement-1.png" alt="Datazilla changes" /></p>
+
+<p><a href="https://github.com/stasm/test-perf-summary">Comparing</a> the results of running the <a href="https://developer.mozilla.org/en-US/Firefox_OS/Platform/Automated_testing/Gaia_performance_tests">Gaia performance tests</a> with a heavy workload before and after the patch we get the following numbers:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th style="text-align: center">communications/contacts (means in ms)</th>
+      <th>Base</th>
+      <th>Patch</th>
+      <th>Δ</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td style="text-align: center">moz-chrome-dom-loaded</td>
+      <td>1147</td>
+      <td>585</td>
+      <td>-562</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">moz-chrome-interactive</td>
+      <td>1267</td>
+      <td>1393</td>
+      <td>126</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">moz-app-visually-complete</td>
+      <td>1601</td>
+      <td>874</td>
+      <td>-727</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">moz-content-interactive</td>
+      <td>2131</td>
+      <td>1393</td>
+      <td>-738</td>
+    </tr>
+    <tr>
+      <td style="text-align: center">moz-app-loaded</td>
+      <td>10942</td>
+      <td>10409</td>
+      <td>-533</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>As you can see we are sending the <code class="highlighter-rouge">moz-app-visually-complete</code> event ~727 milliseconds earlier than before. This is the event that we use to indicate that the application appears visually ready for user interaction and the one that we really want to send as soon as possible. We also get similar improvements for the <code class="highlighter-rouge">moz-chrome-dom-loaded</code>, <code class="highlighter-rouge">moz-content-interactive</code> and <code class="highlighter-rouge">moz-app-loaded</code> events. You can also notice that we had to make some trade offs and we lost some ground with the <code class="highlighter-rouge">moz-chrome-interactive</code> event. If you look closer, you will see that chrome and content are marked as interactive at the same time. This was not happening before. We were not able to interact with the application content until almost one second after being able to interact with the application chrome. Now we have everything ready at once ~700 milliseconds before and given that the most important part of the Contacts application is the contacts data itself, we consider that the small lost in the <code class="highlighter-rouge">moz-chrome-interactive</code> event is worth the result. You can check the <a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Firefox_OS_app_responsiveness_guidelines#Stages">MDN responsiveness guidelines</a> page for more details about these events.</p>
+
+<p>I recorded a quick video comparing the previous situation (left) with the current one (right). (Apologies for the low quality of the recording).</p>
+
+<iframe title="vimeo-player" src="https://player.vimeo.com/video/121901924" width="710" height="360" frameborder="0" allowfullscreen=""></iframe>
+
+<h2 id="how-did-we-get-there">How did we get there</h2>
+
+<p>The target was to have some usable UI ready as soon as possible before the browser painted anything on the screen. For us, this usable UI is the application chrome with the <code class="highlighter-rouge">Add contact</code> and <code class="highlighter-rouge">Settings</code> options and the first chunk of contacts, including favorite and <a href="http://en.wikipedia.org/wiki/In_case_of_emergency">ICE</a> contacts.</p>
+
+<p>So far we were not doing bad showing the application chrome, but we were taking extra time to load the first group of visible contacts. To show this first content we needed to do a request to the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Navigator/mozContacts">MozContacts API</a> to obtain the list of stored contacts and start appending to the DOM one new node per each contact information retrieved. The thing is that the result of this request rarely changed from one execution to the other. So why not caching it?</p>
+
+<p>We followed the same approach that the Email team already applied on the <a href="https://groups.google.com/forum/#!topic/mozilla.dev.gaia/v_jVuwOJMKI">Email application</a> for caching the email list. We used <a href="https://developer.mozilla.org/en-US/docs/Web/API/Window/localStorage">localStorage</a> to save the result of getting the contacts list from the MozContacts API and rendering the first chunk of contacts. To avoid having to do object serialization and parsing before and after accessing the localStorage item, we initially tried storing the whole <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/outerHTML">outerHTML</a> string of the <a href="https://github.com/mozilla-b2g/gaia/blob/master/apps/communications/contacts/index.html#L218">contacts groups container</a> holding the first chunk of contacts and applying it via <a href="https://developer.mozilla.org/en-US/docs/Web/API/Element/innerHTML">innerHTML</a>, but that did not give good enough performance and it made the logic for managing the contacts cache harder. Also, in the end we figured out that we needed to store other information like the language direction or the cache date along with the HTML to decide wether the cache was valid or not, so object serialization and parsing was required in any case. Instead of that, we ended up storing an object with this information to ease the cache eviction decision and enough information to rebuild the DOM containing the first chunk of contacts. We applied this data to the DOM via <a href="https://developer.mozilla.org/en-US/docs/Web/API/DocumentFragment">documentFragment</a>. You can checkout the code for <a href="https://github.com/mozilla-b2g/gaia/blob/master/apps/communications/contacts/js/views/list.js#L2274">building</a> and <a href="https://github.com/mozilla-b2g/gaia/blob/master/apps/communications/contacts/js/bootstrap.js#L173">applying</a> the cache.</p>
+
+<p>The trickiest part of maintaining this cache is the eviction policy. We need to evict and rebuild the cache every time a contact is changed (added, removed or edited) and because this can happen from inside and from outside of the Contacts app (even when the app is closed), we need to be specially careful and verify the cache after applying it to the DOM without affecting the performance or causing visual reflows. You can follow <a href="https://github.com/mozilla-b2g/gaia/blob/master/apps/communications/contacts/js/views/list.js#L2375">this code</a> to see how we managed to do that. Other scenarios where we need to evict the cache are language direction changes, <a href="http://en.wikipedia.org/wiki/In_case_of_emergency">ICE</a> contacts changes, favorite contacts modifications and when the user changes the way the contacts are displayed (by first or last name).</p>
+
+<p>Apart from building the cache mechanism we also changed the application bootstrap process in a way that we only load the minimum set of scripts required to get the cached information from localStorage and to apply it in the DOM. Once we have this process completed, we load the rest of the application Javascript that is required to continue the rest of the boot process. You can see this logic in the new <a href="https://github.com/mozilla-b2g/gaia/blob/master/apps/communications/contacts/js/bootstrap.js#L410">bootstrap</a> script.</p>
+
+<h2 id="next-steps">Next steps</h2>
+
+<p>We want to keep improving the performance of the Contacts application. The next thing that we want to target is improving the loading of the contacts thumbnails. In fact, <a href="https://twitter.com/mepartoconmigo">Francisco Jordano</a> has already started working on <a href="https://bugzilla.mozilla.org/show_bug.cgi?id=1089538">it</a> and there are already some visible improvements.</p>
+
+<iframe width="710" height="381" src="https://www.youtube-nocookie.com/embed/lOx-Ym2qUlM" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+
+<p>We also want to experiment with caching most part or even the whole contacts list in different chunks to allow the user to use the alpha scrolling and to get a fully loaded application even sooner.</p>
+
+<p>Finally, the Gaia team is starting to play around with <a href="http://www.html5rocks.com/en/tutorials/service-worker/introduction/">Service Workers</a> and with the idea of using this new feature to cache already rendered views in a similar way that we did for Contacts. I cannot wait to see more progress in this area :)</p>
+
+<h2 id="credits">Credits</h2>
+
+<p><a href="https://twitter.com/mepartoconmigo">Francisco Jordano</a>, <a href="https://github.com/JohanLorenzo">Johan Lorenzo</a>, <a href="http://sergimansilla.com/">Sergi Mansilla</a>.</p>
+
+  </div>
+
+  <footer class="postNavigation">
+  
+  
+    <a class="postNext" href="/mozilla/iot/networking/2016/04/22/project-link-networking.html">
+        Project Link Networking &raquo;
+    </a>
+  
+  </footer>
+
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading small-site-title">ferjm</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list footer-content">
+          <li>Powered By <a href="http://github.com/hemangsk/Gravity">Gravity</a></li>
+          <li>Made with <i class="fa fa-heart"></i> on <a href="http://jekyllrb.com"><span>{ { Jekyll } }</a></span></li>
+
+
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2 footer-content">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/ferjm"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">ferjm</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/f_jimenez"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">f_jimenez</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3 site-description">
+        <p>coding out loud</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>
