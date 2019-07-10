@@ -5,13 +5,126 @@
     <description>coding out loud</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Tue, 02 Jul 2019 12:46:23 +0200</pubDate>
-    <lastBuildDate>Tue, 02 Jul 2019 12:46:23 +0200</lastBuildDate>
+    <pubDate>Wed, 10 Jul 2019 11:08:10 +0200</pubDate>
+    <lastBuildDate>Wed, 10 Jul 2019 11:08:10 +0200</lastBuildDate>
     <generator>Jekyll v3.8.5</generator>
     
       <item>
+        <title>Servo Media Mid-Year review</title>
+        <description>&lt;p&gt;We recently closed the first half of 2019 and with that it is time to look back and do a quick summary of what the media team has achieved during this 6 months period.&lt;/p&gt;
+
+&lt;p&gt;Looking at some stats, we merged 87 Pull Requests, we opened 56 issues, we closed 42 issues and we welcomed 13 new amazing contributors to the media stack.&lt;/p&gt;
+
+&lt;h2 id=&quot;av-playback&quot;&gt;A/V playback&lt;/h2&gt;
+
+&lt;p&gt;These are some of the selected A/V playback related H1 acomplishments&lt;/p&gt;
+
+&lt;h4 id=&quot;media-cache-and-improved-seeking&quot;&gt;Media cache and improved seeking&lt;/h4&gt;
+
+&lt;p&gt;We significally &lt;a href=&quot;https://github.com/servo/servo/pull/22692&quot;&gt;improved&lt;/a&gt; the seeking experience of audio and video files by implementing preloading and buffering support and a media cache.&lt;/p&gt;
+
+&lt;iframe title=&quot;vimeo-player&quot; src=&quot;https://player.vimeo.com/video/311414154&quot; width=&quot;640&quot; height=&quot;360&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+
+&lt;h4 id=&quot;basic-media-controls&quot;&gt;Basic media controls&lt;/h4&gt;
+
+&lt;p&gt;After a few months of work we got &lt;a href=&quot;https://github.com/servo/servo/pull/22743&quot;&gt;partial support for the Shadow DOM API&lt;/a&gt;, which gave us the opportunity to implement our first basic set of &lt;a href=&quot;https://github.com/servo/servo/pull/23208&quot;&gt;media controls&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/media-p.slid.es/uploads/105177/images/6275339/Jun-19-2019_17-11-57.gif&quot; alt=&quot;media controls&quot; width=&quot;640&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;The UI is not perfect, among other things, because we still have no way to render a progress or volume bar properly, as that depends on the &lt;code class=&quot;highlighter-rouge&quot;&gt;input type=&quot;range&quot;&amp;gt;&lt;/code&gt; layout, which so far is rendered as a simple text box instead of the usual slider with a thumb.&lt;/p&gt;
+
+&lt;h4 id=&quot;gstreamer-backend-for-magicleap&quot;&gt;GStreamer backend for MagicLeap&lt;/h4&gt;
+
+&lt;p&gt;Another great achievement by &lt;a href=&quot;https://github.com/xclaesse&quot;&gt;Xavier Claessens&lt;/a&gt; from &lt;a href=&quot;https://www.collabora.com/&quot;&gt;Collabora&lt;/a&gt; has been the GStreamer backend for &lt;a href=&quot;https://www.magicleap.com/&quot;&gt;Magic Leap&lt;/a&gt;. The work is not completely done yet, but as you can see on the animation bellow, he already managed to paint a full screen video on the Magic Leap device.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/media-p.slid.es/uploads/105177/images/6274304/Jun-19-2019_13-12-31.gif&quot; alt=&quot;magic leap video&quot; width=&quot;640&quot; /&gt;&lt;/p&gt;
+
+&lt;h4 id=&quot;hardware-accelerated-decoding&quot;&gt;Hardware accelerated decoding&lt;/h4&gt;
+
+&lt;p&gt;One of the most wanted features that we have been working on for almost a year and that has recently landed is hardware accelerated decoding.&lt;/p&gt;
+
+&lt;p&gt;Thanks to the excellent and constant work from the &lt;a href=&quot;https://www.igalia.com/&quot;&gt;Igalian&lt;/a&gt; &lt;a href=&quot;https://github.com/ceyusa&quot;&gt;Víctor Jáquez&lt;/a&gt;, Servo recently gained &lt;a href=&quot;https://github.com/servo/servo/pull/23483&quot;&gt;support for hardware-accelerated media playback&lt;/a&gt;, which means lower CPU usage, better battery life and better thermal behaviour, among other goodies.&lt;/p&gt;
+
+&lt;p&gt;We only have support on Linux and Android (EGL and Wayland) so far. Support for other platforms is on the roadmap.&lt;/p&gt;
+
+&lt;video src=&quot;https://s3.amazonaws.com/media-p.slid.es/videos/105177/rzteE40V/hwacceleration.mp4&quot; width=&quot;640&quot; controls=&quot;&quot;&gt;&lt;/video&gt;
+
+&lt;p&gt;The numbers we are getting are already pretty nice. You might not be able to see it clearly on the video, but the renderer CPU time for the non hardware accelerated playback is ~8ms, compared to the ~1ms of CPU time that we get with the accelerated version.&lt;/p&gt;
+
+&lt;h4 id=&quot;improved-web-compatibility-of-our-media-elements-implementation&quot;&gt;Improved web compatibility of our media elements implementation&lt;/h4&gt;
+
+&lt;p&gt;We also got a bunch of other smaller features that significantly improved the web compatibility of our media elements.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/servo/ferjm&quot;&gt;ferjm&lt;/a&gt; &lt;a href=&quot;https://github.com/servo/servo/pull/22399&quot;&gt;added&lt;/a&gt; support for the HTMLMediaElement &lt;code class=&quot;highlighter-rouge&quot;&gt;poster&lt;/code&gt; frame attribute&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/swarnimarun&quot;&gt;swarnimarun&lt;/a&gt; &lt;a href=&quot;https://github.com/servo/servo/pull/23236&quot;&gt;implemented&lt;/a&gt; support for the HTMLMediaElement &lt;code class=&quot;highlighter-rouge&quot;&gt;loop&lt;/code&gt; attribute&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/jackxbritton&quot;&gt;jackxbritton&lt;/a&gt; &lt;a href=&quot;https://blog.servo.org/2019/07/09/media-update-h1-2019/&quot;&gt;implemented&lt;/a&gt; the HTMLMediaElement &lt;code class=&quot;highlighter-rouge&quot;&gt;crossorigin&lt;/code&gt; attribute logic.&lt;/li&gt;
+  &lt;li&gt;Servo got the ability to &lt;a href=&quot;https://github.com/servo/servo/pull/22347&quot;&gt;mute and unmute&lt;/a&gt; as well as controlling the &lt;a href=&quot;https://github.com/servo/servo/pull/22324&quot;&gt;volume&lt;/a&gt; of audio and video playback thanks to &lt;a href=&quot;https://github.com/stevesweetney&quot;&gt;stevesweetney&lt;/a&gt; and &lt;a href=&quot;https://github.com/lucasfantacuci&quot;&gt;lucasfantacuci&lt;/a&gt;.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/sreeise&quot;&gt;sreeise&lt;/a&gt; &lt;a href=&quot;https://github.com/servo/servo/pull/22622&quot;&gt;implemented&lt;/a&gt; the AudioTrack, VideoTrack, AudioTrackList and VideoTrackList interfaces.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/georgeroman&quot;&gt;georgeroman&lt;/a&gt; &lt;a href=&quot;https://github.com/servo/servo/pull/22449&quot;&gt;coded&lt;/a&gt; the required changes to allow changing the playback rate of audio and video files.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/georgeroman&quot;&gt;georgeroman&lt;/a&gt;, again, &lt;a href=&quot;https://github.com/servo/media/pull/232&quot;&gt;implemented&lt;/a&gt; support for the HTMLMediaElement &lt;code class=&quot;highlighter-rouge&quot;&gt;canPlayType&lt;/code&gt; function.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/dlrobertson&quot;&gt;dlrobertson&lt;/a&gt; paved the way for timed text tracks support by implementing the basics of the &lt;a href=&quot;https://github.com/servo/servo/pull/22392&quot;&gt;TextTrack API&lt;/a&gt; and the &lt;a href=&quot;https://github.com/servo/servo/pull/22563&quot;&gt;HTMLTrackElement interface&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;webaudio&quot;&gt;WebAudio&lt;/h1&gt;
+&lt;p&gt;We also got a few additions on the WebAudio land.&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/PurpleHairEngineer&quot;&gt;PurpleHairEngineer&lt;/a&gt; &lt;a href=&quot;https://github.com/servo/media/pull/243&quot;&gt;implemented&lt;/a&gt; the StereoPannerNode backend.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/collares&quot;&gt;collares&lt;/a&gt; &lt;a href=&quot;https://github.com/servo/servo/pull/22648&quot;&gt;implemented&lt;/a&gt; the DOM side of the ChannelSplitterNode.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/Akhilesh1996&quot;&gt;Akhilesh1996&lt;/a&gt; &lt;a href=&quot;https://github.com/servo/servo/pull/23259&quot;&gt;implemented&lt;/a&gt; the AudioParam setValueCurveAtTime function.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/snarasi6&quot;&gt;snarasi6&lt;/a&gt; &lt;a href=&quot;https://github.com/servo/servo/pull/23279&quot;&gt;implemented&lt;/a&gt; the deprecated setPosition and setOrientation AudioListener methods.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;webrtc&quot;&gt;WebRTC&lt;/h1&gt;
+&lt;p&gt;Thanks to &lt;a href=&quot;https://github.com/jdm&quot;&gt;jdm&lt;/a&gt;’s and &lt;a href=&quot;https://github.com/Manishearth&quot;&gt;Manishearth&lt;/a&gt;’s work, Servo has now the foundations of a &lt;a href=&quot;https://github.com/servo/servo/pull/23377&quot;&gt;WebRTC implementation&lt;/a&gt; and it is able to perform a 2-way calling with audio and video playback coming from the &lt;a href=&quot;https://github.com/servo/servo/pull/22780&quot;&gt;getUserMedia API&lt;/a&gt;.&lt;/p&gt;
+
+&lt;iframe src=&quot;https://player.vimeo.com/video/328247783&quot; width=&quot;640&quot; height=&quot;392&quot; frameborder=&quot;0&quot; allow=&quot;autoplay; fullscreen&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+
+&lt;h2 id=&quot;next-steps&quot;&gt;Next steps&lt;/h2&gt;
+&lt;p&gt;&lt;em&gt;That’s &lt;strong&gt;not&lt;/strong&gt; all folks!&lt;/em&gt; We have exciting plans for the second half of 2019.&lt;/p&gt;
+
+&lt;h1 id=&quot;av-playback-1&quot;&gt;A/V playback&lt;/h1&gt;
+&lt;p&gt;On the A/V playback land, we want to:&lt;/p&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;Focus on adding hardware accelerated playback on Windows and OSX.&lt;/li&gt;
+  &lt;li&gt;Add support for fullscreen playback.&lt;/li&gt;
+  &lt;li&gt;Add support for 360 video.&lt;/li&gt;
+  &lt;li&gt;Improve the existing media controls by, for instance, implementing a nicer layout for the &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;input type=&quot;range&quot;&amp;gt;&lt;/code&gt; element, with a proper slider and a thumb, so we can have progress and volume bars.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h1 id=&quot;webaudio-1&quot;&gt;WebAudio&lt;/h1&gt;
+&lt;p&gt;For WebAudio there are plans to make some architectural improvements related to the timeline and the graph traversals.&lt;/p&gt;
+
+&lt;p&gt;We would also love to work on the MediaElementAudioSourceNode implementation.&lt;/p&gt;
+
+&lt;h1 id=&quot;webrtc-1&quot;&gt;WebRTC&lt;/h1&gt;
+&lt;p&gt;For WebRTC, data channels are on the roadmap for the second half.&lt;/p&gt;
+
+&lt;p&gt;We currently support the playback of a single stream of audio and video simultaneously, so allowing the playback of multiple simulatenous streams of each type is also something that we would like to get during the following months.&lt;/p&gt;
+
+&lt;h1 id=&quot;others&quot;&gt;Others&lt;/h1&gt;
+&lt;p&gt;There were also plans to implement support for a global mute feature, and I am happy to say, that &lt;a href=&quot;https://github.com/khodzha&quot;&gt;khodza&lt;/a&gt; already &lt;a href=&quot;https://github.com/servo/media/pull/271&quot;&gt;got this done&lt;/a&gt; right at the start of the second half.&lt;/p&gt;
+
+&lt;p&gt;Finally, we have been trying to get Youtube to work on Servo, but it turned out to be a difficult task because of non-media related issues (i.e. layout or web compatibility issues), so we decided to adjust the goal and focus on embedded Youtube support instead.&lt;/p&gt;
+
+&lt;p&gt;&lt;small&gt;Originally published at &lt;a href=&quot;https://blog.servo.org/&quot;&gt;https://blog.servo.org/&lt;/a&gt;&lt;/small&gt;&lt;/p&gt;
+</description>
+        <pubDate>Tue, 09 Jul 2019 00:00:00 +0200</pubDate>
+        <link>http://localhost:4000/media/2019/07/09/media-update-h1-2019.html</link>
+        <guid isPermaLink="true">http://localhost:4000/media/2019/07/09/media-update-h1-2019.html</guid>
+        
+        
+        <category>media</category>
+        
+      </item>
+    
+      <item>
         <title>TIDx 2018 talk - Rust 101</title>
-        <description>&lt;div style=&quot;text-align:center;&quot;&gt;
+        <description>&lt;p&gt;On February 2018 I gave an introductory talk about Rust at the TIDx conference.&lt;/p&gt;
+
+&lt;div style=&quot;text-align:center;&quot;&gt;
 &lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/eLYfMDApTVA&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
 &lt;/div&gt;
 

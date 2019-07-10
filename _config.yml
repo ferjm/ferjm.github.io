@@ -15,6 +15,7 @@ twitter_username: f_jimenez
 github_username:  ferjm
 paginate: 5
 theme-dark: false #Set to true to change to dark website theme
+google_analytics: UA-76885315-1
 
 plugins: [jekyll-paginate, kramdown]
 # Build settings
