@@ -1,0 +1,2 @@
+I"þ<p>One of the biggest challenges that we have in Firefox OS is the <a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Performance_fundamentals">performance</a>. We have been fighting it since day one and by applying some <a href="https://developer.mozilla.org/en-US/Apps/Build/Performance/Optimizing_startup_performance">different techniques</a> we managed to get to a point where we have some very decent <a href="https://datazilla.mozilla.org/b2g">application start-up time numbers</a>.</p>
+:ET

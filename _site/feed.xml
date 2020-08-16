@@ -5,9 +5,9 @@
     <description>coding out loud</description>
     <link>http://localhost:4000/</link>
     <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Wed, 10 Jul 2019 11:08:10 +0200</pubDate>
-    <lastBuildDate>Wed, 10 Jul 2019 11:08:10 +0200</lastBuildDate>
-    <generator>Jekyll v3.8.5</generator>
+    <pubDate>Sun, 16 Aug 2020 11:19:18 +0200</pubDate>
+    <lastBuildDate>Sun, 16 Aug 2020 11:19:18 +0200</lastBuildDate>
+    <generator>Jekyll v4.1.1</generator>
     
       <item>
         <title>Servo Media Mid-Year review</title>
@@ -31,7 +31,7 @@
 
 &lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/media-p.slid.es/uploads/105177/images/6275339/Jun-19-2019_17-11-57.gif&quot; alt=&quot;media controls&quot; width=&quot;640&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;The UI is not perfect, among other things, because we still have no way to render a progress or volume bar properly, as that depends on the &lt;code class=&quot;highlighter-rouge&quot;&gt;input type=&quot;range&quot;&amp;gt;&lt;/code&gt; layout, which so far is rendered as a simple text box instead of the usual slider with a thumb.&lt;/p&gt;
+&lt;p&gt;The UI is not perfect, among other things, because we still have no way to render a progress or volume bar properly, as that depends on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;input type=&quot;range&quot;&amp;gt;&lt;/code&gt; layout, which so far is rendered as a simple text box instead of the usual slider with a thumb.&lt;/p&gt;
 
 &lt;h4 id=&quot;gstreamer-backend-for-magicleap&quot;&gt;GStreamer backend for MagicLeap&lt;/h4&gt;
 
@@ -56,13 +56,13 @@
 &lt;p&gt;We also got a bunch of other smaller features that significantly improved the web compatibility of our media elements.&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/servo/ferjm&quot;&gt;ferjm&lt;/a&gt; &lt;a href=&quot;https://github.com/servo/servo/pull/22399&quot;&gt;added&lt;/a&gt; support for the HTMLMediaElement &lt;code class=&quot;highlighter-rouge&quot;&gt;poster&lt;/code&gt; frame attribute&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/swarnimarun&quot;&gt;swarnimarun&lt;/a&gt; &lt;a href=&quot;https://github.com/servo/servo/pull/23236&quot;&gt;implemented&lt;/a&gt; support for the HTMLMediaElement &lt;code class=&quot;highlighter-rouge&quot;&gt;loop&lt;/code&gt; attribute&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/jackxbritton&quot;&gt;jackxbritton&lt;/a&gt; &lt;a href=&quot;https://blog.servo.org/2019/07/09/media-update-h1-2019/&quot;&gt;implemented&lt;/a&gt; the HTMLMediaElement &lt;code class=&quot;highlighter-rouge&quot;&gt;crossorigin&lt;/code&gt; attribute logic.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/servo/ferjm&quot;&gt;ferjm&lt;/a&gt; &lt;a href=&quot;https://github.com/servo/servo/pull/22399&quot;&gt;added&lt;/a&gt; support for the HTMLMediaElement &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;poster&lt;/code&gt; frame attribute&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/swarnimarun&quot;&gt;swarnimarun&lt;/a&gt; &lt;a href=&quot;https://github.com/servo/servo/pull/23236&quot;&gt;implemented&lt;/a&gt; support for the HTMLMediaElement &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;loop&lt;/code&gt; attribute&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/jackxbritton&quot;&gt;jackxbritton&lt;/a&gt; &lt;a href=&quot;https://blog.servo.org/2019/07/09/media-update-h1-2019/&quot;&gt;implemented&lt;/a&gt; the HTMLMediaElement &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;crossorigin&lt;/code&gt; attribute logic.&lt;/li&gt;
   &lt;li&gt;Servo got the ability to &lt;a href=&quot;https://github.com/servo/servo/pull/22347&quot;&gt;mute and unmute&lt;/a&gt; as well as controlling the &lt;a href=&quot;https://github.com/servo/servo/pull/22324&quot;&gt;volume&lt;/a&gt; of audio and video playback thanks to &lt;a href=&quot;https://github.com/stevesweetney&quot;&gt;stevesweetney&lt;/a&gt; and &lt;a href=&quot;https://github.com/lucasfantacuci&quot;&gt;lucasfantacuci&lt;/a&gt;.&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/sreeise&quot;&gt;sreeise&lt;/a&gt; &lt;a href=&quot;https://github.com/servo/servo/pull/22622&quot;&gt;implemented&lt;/a&gt; the AudioTrack, VideoTrack, AudioTrackList and VideoTrackList interfaces.&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/georgeroman&quot;&gt;georgeroman&lt;/a&gt; &lt;a href=&quot;https://github.com/servo/servo/pull/22449&quot;&gt;coded&lt;/a&gt; the required changes to allow changing the playback rate of audio and video files.&lt;/li&gt;
-  &lt;li&gt;&lt;a href=&quot;https://github.com/georgeroman&quot;&gt;georgeroman&lt;/a&gt;, again, &lt;a href=&quot;https://github.com/servo/media/pull/232&quot;&gt;implemented&lt;/a&gt; support for the HTMLMediaElement &lt;code class=&quot;highlighter-rouge&quot;&gt;canPlayType&lt;/code&gt; function.&lt;/li&gt;
+  &lt;li&gt;&lt;a href=&quot;https://github.com/georgeroman&quot;&gt;georgeroman&lt;/a&gt;, again, &lt;a href=&quot;https://github.com/servo/media/pull/232&quot;&gt;implemented&lt;/a&gt; support for the HTMLMediaElement &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;canPlayType&lt;/code&gt; function.&lt;/li&gt;
   &lt;li&gt;&lt;a href=&quot;https://github.com/dlrobertson&quot;&gt;dlrobertson&lt;/a&gt; paved the way for timed text tracks support by implementing the basics of the &lt;a href=&quot;https://github.com/servo/servo/pull/22392&quot;&gt;TextTrack API&lt;/a&gt; and the &lt;a href=&quot;https://github.com/servo/servo/pull/22563&quot;&gt;HTMLTrackElement interface&lt;/a&gt;.&lt;/li&gt;
 &lt;/ul&gt;
 
@@ -91,7 +91,7 @@
   &lt;li&gt;Focus on adding hardware accelerated playback on Windows and OSX.&lt;/li&gt;
   &lt;li&gt;Add support for fullscreen playback.&lt;/li&gt;
   &lt;li&gt;Add support for 360 video.&lt;/li&gt;
-  &lt;li&gt;Improve the existing media controls by, for instance, implementing a nicer layout for the &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;input type=&quot;range&quot;&amp;gt;&lt;/code&gt; element, with a proper slider and a thumb, so we can have progress and volume bars.&lt;/li&gt;
+  &lt;li&gt;Improve the existing media controls by, for instance, implementing a nicer layout for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;input type=&quot;range&quot;&amp;gt;&lt;/code&gt; element, with a proper slider and a thumb, so we can have progress and volume bars.&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;h1 id=&quot;webaudio-1&quot;&gt;WebAudio&lt;/h1&gt;
@@ -183,7 +183,7 @@
 &lt;ol&gt;
   &lt;li&gt;Link exposes HTTP and WebSockets services.&lt;/li&gt;
   &lt;li&gt;First thing that Link does is to generate a self-signed certificate that becomes its identifier.&lt;/li&gt;
-  &lt;li&gt;It connects to an &lt;a href=&quot;https://github.com/fxbox/dns-server&quot;&gt;API&lt;/a&gt; on &lt;code class=&quot;highlighter-rouge&quot;&gt;knilxof.org&lt;/code&gt; (our dev server) to create its public DNS zone under &lt;code class=&quot;highlighter-rouge&quot;&gt;&amp;lt;fingerprint&amp;gt;.knilxof.org&lt;/code&gt;, using its self-signed certificate as a client certificate. The API server checks the fingerprint from the DNS zone edit request against the fingerprint of the client certificate presented.&lt;/li&gt;
+  &lt;li&gt;It connects to an &lt;a href=&quot;https://github.com/fxbox/dns-server&quot;&gt;API&lt;/a&gt; on &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;knilxof.org&lt;/code&gt; (our dev server) to create its public DNS zone under &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;fingerprint&amp;gt;.knilxof.org&lt;/code&gt;, using its self-signed certificate as a client certificate. The API server checks the fingerprint from the DNS zone edit request against the fingerprint of the client certificate presented.&lt;/li&gt;
   &lt;li&gt;Now that the Box has a public DNS zone it can control, it can get a LetsEncrypt certificate, using the &lt;a href=&quot;https://letsencrypt.github.io/acme-spec/#rfc.section.7.4&quot;&gt;DNS-01 challenge&lt;/a&gt;.&lt;/li&gt;
   &lt;li&gt;Link sets its main DNS A record to its current &lt;strong&gt;local&lt;/strong&gt; IP address which it obtained via DHCP earlier. It will update this A record whenever its local IP address changes.&lt;/li&gt;
   &lt;li&gt;It also sets two or more mirror A records to its current local IP address. The idea here being that only one of the records will be cached by caching DNS servers, so switching to the other one at the right time will avoid downtime due to DNS propagation delays. This is currently not implemented.&lt;/li&gt;
@@ -193,7 +193,7 @@
 
 &lt;p&gt;After the above process is completed, when the user browses to our &lt;a href=&quot;https://github.com/fxbox/app&quot;&gt;client demo application&lt;/a&gt;, the app makes a cross-origin request to the registration server &lt;em&gt;ping&lt;/em&gt; endpoint to obtain the URLs the app can use to securely connect to Link.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GET /ping HTTP/1.1
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GET /ping HTTP/1.1
 
 HTTP/1.1 200 OK  
 Access-Control-Allow-Origin: *  
@@ -284,7 +284,7 @@ Date: Fri, 22 Apr 2016 14:39:44 GMT
   &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;As you can see we are sending the &lt;code class=&quot;highlighter-rouge&quot;&gt;moz-app-visually-complete&lt;/code&gt; event ~727 milliseconds earlier than before. This is the event that we use to indicate that the application appears visually ready for user interaction and the one that we really want to send as soon as possible. We also get similar improvements for the &lt;code class=&quot;highlighter-rouge&quot;&gt;moz-chrome-dom-loaded&lt;/code&gt;, &lt;code class=&quot;highlighter-rouge&quot;&gt;moz-content-interactive&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;moz-app-loaded&lt;/code&gt; events. You can also notice that we had to make some trade offs and we lost some ground with the &lt;code class=&quot;highlighter-rouge&quot;&gt;moz-chrome-interactive&lt;/code&gt; event. If you look closer, you will see that chrome and content are marked as interactive at the same time. This was not happening before. We were not able to interact with the application content until almost one second after being able to interact with the application chrome. Now we have everything ready at once ~700 milliseconds before and given that the most important part of the Contacts application is the contacts data itself, we consider that the small lost in the &lt;code class=&quot;highlighter-rouge&quot;&gt;moz-chrome-interactive&lt;/code&gt; event is worth the result. You can check the &lt;a href=&quot;https://developer.mozilla.org/en-US/Apps/Build/Performance/Firefox_OS_app_responsiveness_guidelines#Stages&quot;&gt;MDN responsiveness guidelines&lt;/a&gt; page for more details about these events.&lt;/p&gt;
+&lt;p&gt;As you can see we are sending the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;moz-app-visually-complete&lt;/code&gt; event ~727 milliseconds earlier than before. This is the event that we use to indicate that the application appears visually ready for user interaction and the one that we really want to send as soon as possible. We also get similar improvements for the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;moz-chrome-dom-loaded&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;moz-content-interactive&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;moz-app-loaded&lt;/code&gt; events. You can also notice that we had to make some trade offs and we lost some ground with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;moz-chrome-interactive&lt;/code&gt; event. If you look closer, you will see that chrome and content are marked as interactive at the same time. This was not happening before. We were not able to interact with the application content until almost one second after being able to interact with the application chrome. Now we have everything ready at once ~700 milliseconds before and given that the most important part of the Contacts application is the contacts data itself, we consider that the small lost in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;moz-chrome-interactive&lt;/code&gt; event is worth the result. You can check the &lt;a href=&quot;https://developer.mozilla.org/en-US/Apps/Build/Performance/Firefox_OS_app_responsiveness_guidelines#Stages&quot;&gt;MDN responsiveness guidelines&lt;/a&gt; page for more details about these events.&lt;/p&gt;
 
 &lt;p&gt;I recorded a quick video comparing the previous situation (left) with the current one (right). (Apologies for the low quality of the recording).&lt;/p&gt;
 
@@ -292,7 +292,7 @@ Date: Fri, 22 Apr 2016 14:39:44 GMT
 
 &lt;h2 id=&quot;how-did-we-get-there&quot;&gt;How did we get there&lt;/h2&gt;
 
-&lt;p&gt;The target was to have some usable UI ready as soon as possible before the browser painted anything on the screen. For us, this usable UI is the application chrome with the &lt;code class=&quot;highlighter-rouge&quot;&gt;Add contact&lt;/code&gt; and &lt;code class=&quot;highlighter-rouge&quot;&gt;Settings&lt;/code&gt; options and the first chunk of contacts, including favorite and &lt;a href=&quot;http://en.wikipedia.org/wiki/In_case_of_emergency&quot;&gt;ICE&lt;/a&gt; contacts.&lt;/p&gt;
+&lt;p&gt;The target was to have some usable UI ready as soon as possible before the browser painted anything on the screen. For us, this usable UI is the application chrome with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Add contact&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Settings&lt;/code&gt; options and the first chunk of contacts, including favorite and &lt;a href=&quot;http://en.wikipedia.org/wiki/In_case_of_emergency&quot;&gt;ICE&lt;/a&gt; contacts.&lt;/p&gt;
 
 &lt;p&gt;So far we were not doing bad showing the application chrome, but we were taking extra time to load the first group of visible contacts. To show this first content we needed to do a request to the &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Web/API/Navigator/mozContacts&quot;&gt;MozContacts API&lt;/a&gt; to obtain the list of stored contacts and start appending to the DOM one new node per each contact information retrieved. The thing is that the result of this request rarely changed from one execution to the other. So why not caching it?&lt;/p&gt;
 
@@ -343,7 +343,7 @@ Date: Fri, 22 Apr 2016 14:39:44 GMT
 
 &lt;p&gt;The navigator.mozPay API allows the developer to create payment requests for different payment providers to charge a user for the purchase of a digital good. In order to create each payment request, the developer needs to create a &lt;a href=&quot;http://openid.net/specs/draft-jones-json-web-token-07.html&quot;&gt;JSON Web Token (JWT)&lt;/a&gt; for each payment provider signed with the Application Secret given by each corresponding provider. This token contains the details of the payment request, including the Application Key, which uniquely identifies the developer and the product being sold.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
   &quot;iss&quot;: APPLICATION_KEY,
   &quot;aud&quot;: &quot;marketplace.firefox.com&quot;,
   ...
@@ -358,7 +358,7 @@ Date: Fri, 22 Apr 2016 14:39:44 GMT
 
 &lt;p&gt;Applications using navigator.mozPay asynchronously receive responses about the completion of payment requests through Javascript callbacks and through POST notifications done by the payment provider to the URLs specified by the developer within the JWT request as postbackURL (for payments) and chargebackURL (for refunds) parameters. The application must only rely on the server side notification to determine the result of a purchase.&lt;/p&gt;
 
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; var request = navigator.mozPay([signedJWT1, signedJWTn]);
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; var request = navigator.mozPay([signedJWT1, signedJWTn]);
  request.onsuccess = function() {
    console.log('Payment flow successfully completed' + evt.target.result);
    // The payment buy flow completed without errors.

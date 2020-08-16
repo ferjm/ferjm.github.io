@@ -79,7 +79,7 @@
 
 <p>The navigator.mozPay API allows the developer to create payment requests for different payment providers to charge a user for the purchase of a digital good. In order to create each payment request, the developer needs to create a <a href="http://openid.net/specs/draft-jones-json-web-token-07.html">JSON Web Token (JWT)</a> for each payment provider signed with the Application Secret given by each corresponding provider. This token contains the details of the payment request, including the Application Key, which uniquely identifies the developer and the product being sold.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
   "iss": APPLICATION_KEY,
   "aud": "marketplace.firefox.com",
   ...
@@ -94,7 +94,7 @@
 
 <p>Applications using navigator.mozPay asynchronously receive responses about the completion of payment requests through Javascript callbacks and through POST notifications done by the payment provider to the URLs specified by the developer within the JWT request as postbackURL (for payments) and chargebackURL (for refunds) parameters. The application must only rely on the server side notification to determine the result of a purchase.</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> var request = navigator.mozPay([signedJWT1, signedJWTn]);
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> var request = navigator.mozPay([signedJWT1, signedJWTn]);
  request.onsuccess = function() {
    console.log('Payment flow successfully completed' + evt.target.result);
    // The payment buy flow completed without errors.
