@@ -3,11 +3,11 @@
   <channel>
     <title>ferjm</title>
     <description>coding out loud</description>
-    <link>http://localhost:4000/</link>
-    <atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 16 Aug 2020 11:19:18 +0200</pubDate>
-    <lastBuildDate>Sun, 16 Aug 2020 11:19:18 +0200</lastBuildDate>
-    <generator>Jekyll v4.1.1</generator>
+    <link>https://ferjm.github.io/</link>
+    <atom:link href="https://ferjm.github.io/feed.xml" rel="self" type="application/rss+xml"/>
+    <pubDate>Sun, 09 May 2021 15:41:50 +0200</pubDate>
+    <lastBuildDate>Sun, 09 May 2021 15:41:50 +0200</lastBuildDate>
+    <generator>Jekyll v4.2.0</generator>
     
       <item>
         <title>Servo Media Mid-Year review</title>
@@ -112,8 +112,8 @@
 &lt;p&gt;&lt;small&gt;Originally published at &lt;a href=&quot;https://blog.servo.org/&quot;&gt;https://blog.servo.org/&lt;/a&gt;&lt;/small&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 09 Jul 2019 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/media/2019/07/09/media-update-h1-2019.html</link>
-        <guid isPermaLink="true">http://localhost:4000/media/2019/07/09/media-update-h1-2019.html</guid>
+        <link>https://ferjm.github.io/media/2019/07/09/media-update-h1-2019.html</link>
+        <guid isPermaLink="true">https://ferjm.github.io/media/2019/07/09/media-update-h1-2019.html</guid>
         
         
         <category>media</category>
@@ -130,8 +130,8 @@
 
 </description>
         <pubDate>Wed, 28 Feb 2018 00:00:00 +0100</pubDate>
-        <link>http://localhost:4000/rust/talk/2018/02/28/tidx-talk-rust-101.html</link>
-        <guid isPermaLink="true">http://localhost:4000/rust/talk/2018/02/28/tidx-talk-rust-101.html</guid>
+        <link>https://ferjm.github.io/rust/talk/2018/02/28/tidx-talk-rust-101.html</link>
+        <guid isPermaLink="true">https://ferjm.github.io/rust/talk/2018/02/28/tidx-talk-rust-101.html</guid>
         
         
         <category>rust</category>
@@ -215,8 +215,8 @@ Date: Fri, 22 Apr 2016 14:39:44 GMT
 &lt;p&gt;Most part of the design and implementation work has been done by &lt;a href=&quot;http://michielbdejong.com/&quot;&gt;Michiel B. de Jong&lt;/a&gt; and &lt;a href=&quot;https://twitter.com/samuelgiles_&quot;&gt;Sam Giles&lt;/a&gt;.&lt;/p&gt;
 </description>
         <pubDate>Fri, 22 Apr 2016 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/mozilla/iot/networking/2016/04/22/project-link-networking.html</link>
-        <guid isPermaLink="true">http://localhost:4000/mozilla/iot/networking/2016/04/22/project-link-networking.html</guid>
+        <link>https://ferjm.github.io/mozilla/iot/networking/2016/04/22/project-link-networking.html</link>
+        <guid isPermaLink="true">https://ferjm.github.io/mozilla/iot/networking/2016/04/22/project-link-networking.html</guid>
         
         
         <category>mozilla</category>
@@ -317,8 +317,8 @@ Date: Fri, 22 Apr 2016 14:39:44 GMT
 &lt;p&gt;&lt;a href=&quot;https://twitter.com/mepartoconmigo&quot;&gt;Francisco Jordano&lt;/a&gt;, &lt;a href=&quot;https://github.com/JohanLorenzo&quot;&gt;Johan Lorenzo&lt;/a&gt;, &lt;a href=&quot;http://sergimansilla.com/&quot;&gt;Sergi Mansilla&lt;/a&gt;.&lt;/p&gt;
 </description>
         <pubDate>Wed, 11 Mar 2015 00:00:00 +0100</pubDate>
-        <link>http://localhost:4000/firefoxos/performance/2015/03/11/improving-fxos-contacts-application-start-up-time.html</link>
-        <guid isPermaLink="true">http://localhost:4000/firefoxos/performance/2015/03/11/improving-fxos-contacts-application-start-up-time.html</guid>
+        <link>https://ferjm.github.io/firefoxos/performance/2015/03/11/improving-fxos-contacts-application-start-up-time.html</link>
+        <guid isPermaLink="true">https://ferjm.github.io/firefoxos/performance/2015/03/11/improving-fxos-contacts-application-start-up-time.html</guid>
         
         
         <category>firefoxos</category>
@@ -360,13 +360,13 @@ Date: Fri, 22 Apr 2016 14:39:44 GMT
 
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; var request = navigator.mozPay([signedJWT1, signedJWTn]);
  request.onsuccess = function() {
-   console.log('Payment flow successfully completed' + evt.target.result);
+   console.log(&apos;Payment flow successfully completed&apos; + evt.target.result);
    // The payment buy flow completed without errors.
    // This does NOT mean the payment was successful.
    waitForServerPostback();
  };
  request.onerror = function(evt) {
-   console.log('navigator.mozPay() error: ' + evt.target.errorMsg.name);
+   console.log(&apos;navigator.mozPay() error: &apos; + evt.target.errorMsg.name);
  };
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
@@ -385,8 +385,8 @@ Date: Fri, 22 Apr 2016 14:39:44 GMT
 &lt;p&gt;&lt;small&gt;Originally published at &lt;a href=&quot;http://en.blogthinkbig.com/2013/04/09/mozilla-web-payments-api/&quot;&gt;BlogThinkBig&lt;/a&gt;&lt;/small&gt;&lt;/p&gt;
 </description>
         <pubDate>Tue, 09 Apr 2013 00:00:00 +0200</pubDate>
-        <link>http://localhost:4000/web/payments/api/firefoxos/telefonica/mozilla/2013/04/09/behind-scenes-web-payments-api.html</link>
-        <guid isPermaLink="true">http://localhost:4000/web/payments/api/firefoxos/telefonica/mozilla/2013/04/09/behind-scenes-web-payments-api.html</guid>
+        <link>https://ferjm.github.io/web/payments/api/firefoxos/telefonica/mozilla/2013/04/09/behind-scenes-web-payments-api.html</link>
+        <guid isPermaLink="true">https://ferjm.github.io/web/payments/api/firefoxos/telefonica/mozilla/2013/04/09/behind-scenes-web-payments-api.html</guid>
         
         
         <category>web</category>
