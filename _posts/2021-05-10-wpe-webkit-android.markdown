@@ -161,5 +161,5 @@ And if you feel encouraged enough, send us patches!
 * I would like to thank [Igalia](https://igalia.com) for giving me the time and space to work on this project.
 * Huge thanks to [Žan Doberšek](https://www.igalia.com/igalian/zdobersek) for his amazing work and continuous guidance.
 * Kudos to [Philippe Normand](https://www.igalia.com/igalian/pnormand) and [Thibault Saunier](https://www.igalia.com/igalian/tsaunier) for their recommendations and support around Cerbero.
-* Many thanks to [Imanol Fernandez](https://www.igalia.com/igalian/ifernandez) for his contributions so far and the XR demo.
+* Many thanks to [Imanol Fernández](https://www.igalia.com/igalian/ifernandez) for his contributions so far and for the VR demo.
 
