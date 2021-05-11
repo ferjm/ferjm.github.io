@@ -1,13 +1,186 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>ferjm</title>
+    <title>blog</title>
     <description>coding out loud</description>
     <link>https://ferjm.github.io/</link>
     <atom:link href="https://ferjm.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 09 May 2021 15:41:50 +0200</pubDate>
-    <lastBuildDate>Sun, 09 May 2021 15:41:50 +0200</lastBuildDate>
+    <pubDate>Tue, 11 May 2021 16:45:14 +0200</pubDate>
+    <lastBuildDate>Tue, 11 May 2021 16:45:14 +0200</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>WPE WebKit for Android</title>
+        <description>&lt;p&gt;WPE WebKit is the official WebKit port for embedded and low-consumption computer devices. It has been designed from the ground-up with performance, small footprint, accelerated content rendering, and simplicity of deployment in mind.&lt;/p&gt;
+
+&lt;p&gt;It brings the excellence of the WebKit engine to countless platforms and target devices, serving as a base for systems and environments that primarily or completely rely on web platform technologies to build their interfaces.&lt;/p&gt;
+
+&lt;p&gt;WPE WebKit’s architecture allows for inclusion in a variety of use cases and applications. It can be custom embedded into an existing application, or it can run as a standalone web runtime under a variety of presentation systems, from platform-specific display managers to existing window management protocols like Wayland or X11.&lt;/p&gt;
+
+&lt;p&gt;Today, we (&lt;a href=&quot;https://igalia.com&quot;&gt;Igalia&lt;/a&gt;) are happy to announce initial support of WPE for Android.&lt;/p&gt;
+
+&lt;p&gt;This effort was initiated back in 2017 by my colleague &lt;a href=&quot;https://www.igalia.com/igalian/zdobersek&quot;&gt;Žan Doberšek&lt;/a&gt;, who fully implemented a &lt;a href=&quot;https://github.com/Igalia/WPEBackend-android&quot;&gt;WPE backend&lt;/a&gt; for Android along with the required pieces to get rendering and basic input work. The work was paused for quite some time until the beginning of this year, when I joined Igalia and took over his work. Since then, I have been heads down working on it, trying to make it more usable thanks to &lt;a href=&quot;https://github.com/Igalia/cerbero/tree/wpe-android&quot;&gt;Cerbero&lt;/a&gt; and a &lt;a href=&quot;https://developer.android.com/reference/android/webkit/WebView&quot;&gt;WebView&lt;/a&gt; based Java API.&lt;/p&gt;
+
+&lt;h1 id=&quot;how-it-looks&quot;&gt;How it looks&lt;/h1&gt;
+
+&lt;p&gt;An image is worth a thousand words. This is how it currently looks running on an Android phone:&lt;/p&gt;
+
+&lt;div style=&quot;text-align:center;&quot;&gt;
+    &lt;video controls=&quot;&quot; src=&quot;/content/videos/2021/05/wpeandroid_may.mp4&quot;&gt;&lt;/video&gt;
+&lt;/div&gt;
+
+&lt;p&gt;As you can see, we have the basic set of functionality enough to implement a simple multi-tabs web browser with progress report, navigation controls and IME support.&lt;/p&gt;
+
+&lt;p&gt;Support is not limited to mobile devices though. Thanks to the wide range of architectures and devices that support Android
+we can now run WPE WebKit on an even wider set of devices. Like a pair of XR glasses. This is a video of a port of
+&lt;a href=&quot;https://mixedreality.mozilla.org/firefox-reality/&quot;&gt;Firefox Reality&lt;/a&gt; using &lt;a href=&quot;https://github.com/Igalia/wpe-android#wpeview-api&quot;&gt;WPEView&lt;/a&gt;
+instead of &lt;a href=&quot;https://mozilla.github.io/geckoview/&quot;&gt;GeckoView&lt;/a&gt;:&lt;/p&gt;
+
+&lt;div style=&quot;text-align:center;&quot;&gt;
+    &lt;video controls=&quot;&quot; src=&quot;/content/videos/2021/05/wpeandroid_fxa.mp4&quot;&gt;&lt;/video&gt;
+&lt;/div&gt;
+
+&lt;h2 id=&quot;building-blocks&quot;&gt;Building blocks&lt;/h2&gt;
+
+&lt;h1 id=&quot;cerbero-build-system&quot;&gt;Cerbero build system&lt;/h1&gt;
+
+&lt;p&gt;WPE WebKit has a very long list of dependencies. Cross compiling all these dependencies manually can be quite cumbersome,
+so in order to ease the development process I focused my first weeks of work on setting up a more usable build system.
+We decided to use &lt;a href=&quot;https://github.com/Igalia/cerbero/tree/wpe-android&quot;&gt;Cerbero&lt;/a&gt;, GStreamer’s cross compilation system,
+which already had &lt;em&gt;recipes&lt;/em&gt; - this is how Cerbero
+names its build scripts - for many of the required dependencies. I wrote all the missing Cerbero recipes and integrated it
+into WPE Android’s build system, to the point that building everything requires a single &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;python3 scripts/bootstrap.py --build&lt;/code&gt;
+command.&lt;/p&gt;
+
+&lt;p&gt;For now the only supported architecture is arm64. There are plans to support other architectures soon.&lt;/p&gt;
+
+&lt;h1 id=&quot;wpeview-api&quot;&gt;WPEView API&lt;/h1&gt;
+
+&lt;p&gt;WPEView wraps the WPE WebKit browser engine in a reusable Android API.
+WPEView serves a similar purpose to Android’s built-in WebView and tries to mimick
+its API aiming to be an easy to use drop-in replacement with extended functionality.&lt;/p&gt;
+
+&lt;p&gt;Setting up WPEView in your Android application is fairly simple.&lt;/p&gt;
+
+&lt;p&gt;First, add the WPEView widget to your &lt;a href=&quot;https://developer.android.com/training/basics/firstapp/building-ui&quot;&gt;Activity layout&lt;/a&gt;&lt;/p&gt;
+
+&lt;div class=&quot;language-xml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nt&quot;&gt;&amp;lt;com.wpe.wpeview.WPEView&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;android:id=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;@+id/wpe_view&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;android:layout_width=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;match_parent&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;android:layout_height=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;match_parent&quot;&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;tools:context=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;.MainActivity&quot;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;/&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;And next, wire it in your Activity implementation to start using the API, for example, to load an URL:&lt;/p&gt;
+
+&lt;div class=&quot;language-kotlin highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;override&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;fun&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;onCreate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;savedInstanceState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Bundle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;super&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;onCreate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;savedInstanceState&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;nf&quot;&gt;setContentView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;layout&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;activity_main&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+
+    &lt;span class=&quot;kd&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;py&quot;&gt;browser&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;findViewById&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;R&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;id&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;wpe_view&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;browser&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;?.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;loadUrl&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;INITIAL_URL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;To get a better sense on how to use WPEView, check the code of the &lt;em&gt;MiniBrowser&lt;/em&gt; demo in the
+&lt;a href=&quot;https://github.com/Igalia/wpe-android/tree/main/examples/minibrowser&quot;&gt;examples&lt;/a&gt; folder.&lt;/p&gt;
+
+&lt;h1 id=&quot;process-model&quot;&gt;Process model&lt;/h1&gt;
+
+&lt;p&gt;In order to safeguard the rest of the system and to allow the application to remain responsive even if
+the user loads a web page that infinite loops or otherwise hangs,
+the modern incarnation of WebKit uses a multi-process architecture.
+Web pages are loaded in its own WebProcess.
+Multiple WebProcesses can share a browsing session, which lives in a shared NetworkProcess.
+In addition to handling all network accesses, this process is
+also responsible for managing the disk cache and Web APIs that allow websites to store
+structured data such as Web Storage API and IndexedDB API.&lt;/p&gt;
+
+&lt;p&gt;Given that Android forbids the fork syscall on non-rooted devices, we cannot directly spawn child processes.
+Instead, we use Android Services to host the logic of WebKit’s auxiliary processes.
+The life cycle of all WebKit’s auxiliary processes is managed by WebKit itself.
+The Android layer only proxies requests to spawn and terminate these processes/services.&lt;/p&gt;
+
+&lt;p&gt;In addition to the multi-process architecture, modern WebKit versions introduce the PSON model
+(Process Swap On Navigation) which aims to improve security by creating an independent WebProcess
+for each security origin. This is currently disabled for WPE Android, although partial support is already in place.&lt;/p&gt;
+
+&lt;h1 id=&quot;browser-and-pages&quot;&gt;Browser and Pages&lt;/h1&gt;
+
+&lt;p&gt;The central piece of WPE Android is the &lt;a href=&quot;https://github.com/Igalia/wpe-android/blob/main/wpe/src/main/java/com/wpe/wpe/Browser.java&quot;&gt;Browser&lt;/a&gt;
+top level Singleton object. This is somehow the equivalent
+to WebKit’s UIProcess. Among other duties it:&lt;/p&gt;
+&lt;ul&gt;
+  &lt;li&gt;Manages the creation and destruction of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Page&lt;/code&gt; instances.&lt;/li&gt;
+  &lt;li&gt;Funnels &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;WPEView&lt;/code&gt; API calls to the appropriate &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Page&lt;/code&gt; instance.&lt;/li&gt;
+  &lt;li&gt;Manages the Android Services equivalent to WebKit’s auxiliary processes (Web and Network processes).&lt;/li&gt;
+  &lt;li&gt;Hosts the UIProcess thread where the &lt;a href=&quot;https://wpewebkit.org/reference/wpewebkit/2.23.90/WebKitWebContext.html&quot;&gt;WebKitWebContext&lt;/a&gt;
+instance lives and where the main loop is run.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;A &lt;a href=&quot;https://github.com/Igalia/wpe-android/blob/main/wpe/src/main/java/com/wpe/wpe/Page.java&quot;&gt;Page&lt;/a&gt;
+roughly corresponds to a tab in a regular browser UI.
+There is a 1:1 relationship between WPEView and Page.
+Each Page instance has its own &lt;a href=&quot;https://github.com/Igalia/wpe-android/blob/main/wpe/src/main/java/com/wpe/wpe/gfx/View.java&quot;&gt;gfx.View&lt;/a&gt;
+and &lt;a href=&quot;https://wpewebkit.org/reference/wpewebkit/2.23.90/WebKitWebView.html&quot;&gt;WebKitWebView&lt;/a&gt; instances associated.&lt;/p&gt;
+
+&lt;h1 id=&quot;wpe-backend&quot;&gt;WPE Backend&lt;/h1&gt;
+
+&lt;p&gt;The common interface between WPEWebKit and its rendering backends is provided by &lt;a href=&quot;https://github.com/WebPlatformForEmbedded/libwpe&quot;&gt;libwpe&lt;/a&gt;.
+&lt;a href=&quot;https://github.com/Igalia/WPEBackend-android&quot;&gt;WPEBackend-android&lt;/a&gt; is our Android-oriented implementation of the libwpe API, bridging the gap between the WebKit architecture and
+the internal composition structure on one side and the Android system on the other.&lt;/p&gt;
+
+&lt;h1 id=&quot;gfxview&quot;&gt;gfx.View&lt;/h1&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://github.com/Igalia/wpe-android/blob/main/wpe/src/main/java/com/wpe/wpe/gfx/View.java&quot;&gt;gfx.View&lt;/a&gt;
+is an extension of &lt;a href=&quot;https://developer.android.com/reference/android/opengl/GLSurfaceView?hl=en&quot;&gt;android.opengl.GLSurfaceView&lt;/a&gt; living
+in the UI Process. It manages the life cycle of a &lt;a href=&quot;https://developer.android.com/reference/android/graphics/SurfaceTexture&quot;&gt;Surface Texture&lt;/a&gt;,
+which is some sort of buffer consumer, that is handed off to the Web Process
+through Android’s IPC mechanisms, where the actual rendering happens.&lt;/p&gt;
+
+&lt;p&gt;It is also in charge of relaying input events to the internal WebKit input-methods.&lt;/p&gt;
+
+&lt;p&gt;This part is currently being significantly changed by Žan to use
+&lt;a href=&quot;https://developer.android.com/ndk/reference/group/a-hardware-buffer&quot;&gt;Native Hardware Buffers&lt;/a&gt;.&lt;/p&gt;
+
+&lt;h2 id=&quot;future-work&quot;&gt;Future work&lt;/h2&gt;
+
+&lt;p&gt;There are still plenty of things to do and, we have a growing &lt;a href=&quot;https://github.com/Igalia/wpe-android/issues&quot;&gt;list of issues&lt;/a&gt; in the main repository.
+The next steps will be towards extending support for other architectures - so far only arm64 is supported.
+Multimedia support is also on the list of immediate plans. Along with the big rendering engine refactor that
+Žan is working on.&lt;/p&gt;
+
+&lt;h2 id=&quot;try-it-yourself&quot;&gt;Try it yourself&lt;/h2&gt;
+
+&lt;p&gt;If you want to try the current prototype, you can follow the instructions in the
+&lt;a href=&quot;https://github.com/Igalia/wpe-android/blob/main/README.md#setting-up-your-environment&quot;&gt;README&lt;/a&gt;
+of the main repo.&lt;/p&gt;
+
+&lt;p&gt;We welcome contributions of all kinds. Give it a try and &lt;a href=&quot;https://github.com/Igalia/wpe-android/issues/new&quot;&gt;file issues&lt;/a&gt; as you encounter them.
+And if you feel encouraged enough, send us patches!&lt;/p&gt;
+
+&lt;h2 id=&quot;acknoledgements&quot;&gt;Acknoledgements&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;I would like to thank &lt;a href=&quot;https://igalia.com&quot;&gt;Igalia&lt;/a&gt; for giving me the time and space to work on this project.&lt;/li&gt;
+  &lt;li&gt;Huge thanks to &lt;a href=&quot;https://www.igalia.com/igalian/zdobersek&quot;&gt;Žan Doberšek&lt;/a&gt; for his amazing work and continuous guidance.&lt;/li&gt;
+  &lt;li&gt;Kudos to &lt;a href=&quot;https://www.igalia.com/igalian/pnormand&quot;&gt;Philippe Normand&lt;/a&gt; and &lt;a href=&quot;https://www.igalia.com/igalian/tsaunier&quot;&gt;Thibault Saunier&lt;/a&gt; for their recommendations and support around Cerbero.&lt;/li&gt;
+  &lt;li&gt;Many thanks to &lt;a href=&quot;https://www.igalia.com/igalian/ifernandez&quot;&gt;Imanol Fernandez&lt;/a&gt; for his contributions so far and the XR demo.&lt;/li&gt;
+&lt;/ul&gt;
+
+</description>
+        <pubDate>Mon, 10 May 2021 00:00:00 +0200</pubDate>
+        <link>https://ferjm.github.io/wpe/webkit/android/2021/05/10/wpe-webkit-android.html</link>
+        <guid isPermaLink="true">https://ferjm.github.io/wpe/webkit/android/2021/05/10/wpe-webkit-android.html</guid>
+        
+        
+        <category>wpe</category>
+        
+        <category>webkit</category>
+        
+        <category>android</category>
+        
+      </item>
     
       <item>
         <title>Servo Media Mid-Year review</title>
@@ -23,13 +196,17 @@
 
 &lt;p&gt;We significally &lt;a href=&quot;https://github.com/servo/servo/pull/22692&quot;&gt;improved&lt;/a&gt; the seeking experience of audio and video files by implementing preloading and buffering support and a media cache.&lt;/p&gt;
 
-&lt;iframe title=&quot;vimeo-player&quot; src=&quot;https://player.vimeo.com/video/311414154&quot; width=&quot;640&quot; height=&quot;360&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;div style=&quot;text-align:center;&quot;&gt;
+    &lt;iframe title=&quot;vimeo-player&quot; src=&quot;https://player.vimeo.com/video/311414154&quot; width=&quot;640&quot; height=&quot;360&quot; frameborder=&quot;0&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
 
 &lt;h4 id=&quot;basic-media-controls&quot;&gt;Basic media controls&lt;/h4&gt;
 
 &lt;p&gt;After a few months of work we got &lt;a href=&quot;https://github.com/servo/servo/pull/22743&quot;&gt;partial support for the Shadow DOM API&lt;/a&gt;, which gave us the opportunity to implement our first basic set of &lt;a href=&quot;https://github.com/servo/servo/pull/23208&quot;&gt;media controls&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/media-p.slid.es/uploads/105177/images/6275339/Jun-19-2019_17-11-57.gif&quot; alt=&quot;media controls&quot; width=&quot;640&quot; /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center;&quot;&gt;
+    &lt;img src=&quot;https://s3.amazonaws.com/media-p.slid.es/uploads/105177/images/6275339/Jun-19-2019_17-11-57.gif&quot; alt=&quot;media controls&quot; width=&quot;640&quot; /&gt;
+&lt;/div&gt;
 
 &lt;p&gt;The UI is not perfect, among other things, because we still have no way to render a progress or volume bar properly, as that depends on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;input type=&quot;range&quot;&amp;gt;&lt;/code&gt; layout, which so far is rendered as a simple text box instead of the usual slider with a thumb.&lt;/p&gt;
 
@@ -37,7 +214,9 @@
 
 &lt;p&gt;Another great achievement by &lt;a href=&quot;https://github.com/xclaesse&quot;&gt;Xavier Claessens&lt;/a&gt; from &lt;a href=&quot;https://www.collabora.com/&quot;&gt;Collabora&lt;/a&gt; has been the GStreamer backend for &lt;a href=&quot;https://www.magicleap.com/&quot;&gt;Magic Leap&lt;/a&gt;. The work is not completely done yet, but as you can see on the animation bellow, he already managed to paint a full screen video on the Magic Leap device.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&quot;https://s3.amazonaws.com/media-p.slid.es/uploads/105177/images/6274304/Jun-19-2019_13-12-31.gif&quot; alt=&quot;magic leap video&quot; width=&quot;640&quot; /&gt;&lt;/p&gt;
+&lt;div style=&quot;text-align:center;&quot;&gt;
+    &lt;img src=&quot;https://s3.amazonaws.com/media-p.slid.es/uploads/105177/images/6274304/Jun-19-2019_13-12-31.gif&quot; alt=&quot;magic leap video&quot; width=&quot;640&quot; /&gt;
+&lt;/div&gt;
 
 &lt;h4 id=&quot;hardware-accelerated-decoding&quot;&gt;Hardware accelerated decoding&lt;/h4&gt;
 
@@ -47,7 +226,9 @@
 
 &lt;p&gt;We only have support on Linux and Android (EGL and Wayland) so far. Support for other platforms is on the roadmap.&lt;/p&gt;
 
-&lt;video src=&quot;https://s3.amazonaws.com/media-p.slid.es/videos/105177/rzteE40V/hwacceleration.mp4&quot; width=&quot;640&quot; controls=&quot;&quot;&gt;&lt;/video&gt;
+&lt;div style=&quot;text-align:center;&quot;&gt;
+    &lt;video src=&quot;https://s3.amazonaws.com/media-p.slid.es/videos/105177/rzteE40V/hwacceleration.mp4&quot; width=&quot;640&quot; controls=&quot;&quot;&gt;&lt;/video&gt;
+&lt;/div&gt;
 
 &lt;p&gt;The numbers we are getting are already pretty nice. You might not be able to see it clearly on the video, but the renderer CPU time for the non hardware accelerated playback is ~8ms, compared to the ~1ms of CPU time that we get with the accelerated version.&lt;/p&gt;
 
@@ -79,7 +260,9 @@
 &lt;h1 id=&quot;webrtc&quot;&gt;WebRTC&lt;/h1&gt;
 &lt;p&gt;Thanks to &lt;a href=&quot;https://github.com/jdm&quot;&gt;jdm&lt;/a&gt;’s and &lt;a href=&quot;https://github.com/Manishearth&quot;&gt;Manishearth&lt;/a&gt;’s work, Servo has now the foundations of a &lt;a href=&quot;https://github.com/servo/servo/pull/23377&quot;&gt;WebRTC implementation&lt;/a&gt; and it is able to perform a 2-way calling with audio and video playback coming from the &lt;a href=&quot;https://github.com/servo/servo/pull/22780&quot;&gt;getUserMedia API&lt;/a&gt;.&lt;/p&gt;
 
-&lt;iframe src=&quot;https://player.vimeo.com/video/328247783&quot; width=&quot;640&quot; height=&quot;392&quot; frameborder=&quot;0&quot; allow=&quot;autoplay; fullscreen&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;div style=&quot;text-align:center;&quot;&gt;
+    &lt;iframe src=&quot;https://player.vimeo.com/video/328247783&quot; width=&quot;640&quot; height=&quot;392&quot; frameborder=&quot;0&quot; allow=&quot;autoplay; fullscreen&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+&lt;/div&gt;
 
 &lt;h2 id=&quot;next-steps&quot;&gt;Next steps&lt;/h2&gt;
 &lt;p&gt;&lt;em&gt;That’s &lt;strong&gt;not&lt;/strong&gt; all folks!&lt;/em&gt; We have exciting plans for the second half of 2019.&lt;/p&gt;
@@ -193,17 +376,29 @@
 
 &lt;p&gt;After the above process is completed, when the user browses to our &lt;a href=&quot;https://github.com/fxbox/app&quot;&gt;client demo application&lt;/a&gt;, the app makes a cross-origin request to the registration server &lt;em&gt;ping&lt;/em&gt; endpoint to obtain the URLs the app can use to securely connect to Link.&lt;/p&gt;
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GET /ping HTTP/1.1
+&lt;div class=&quot;language-sh highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;GET /ping HTTP/1.1
 
 HTTP/1.1 200 OK  
-Access-Control-Allow-Origin: *  
+Access-Control-Allow-Origin: &lt;span class=&quot;k&quot;&gt;*&lt;/span&gt;  
 Access-Control-Allow-Headers: accept, authorization, content-type  
-Content-Type: application/json; charset=utf-8  
+Content-Type: application/json&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;charset&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;utf-8  
 Access-Control-Allow-Methods: GET, POST, PUT  
 Content-Length: 312  
 Date: Fri, 22 Apr 2016 14:39:44 GMT
 
-[{&quot;public_ip&quot;:&quot;88.xxx.xxx.xxx&quot;,&quot;client&quot;:&quot;80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6&quot;,&quot;message&quot;:&quot;{\&quot;local_origin\&quot;:\&quot;https://local.80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6.box.knilxof.org:3000\&quot;,\&quot;tunnel_origin\&quot;:\&quot;https://remote.80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6.box.knilxof.org\&quot;}&quot;,&quot;timestamp&quot;:1461335726}]
+&lt;span class=&quot;o&quot;&gt;[&lt;/span&gt;
+   &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+      &lt;span class=&quot;s2&quot;&gt;&quot;public_ip&quot;&lt;/span&gt;:&lt;span class=&quot;s2&quot;&gt;&quot;88.xxx.xxx.xxx&quot;&lt;/span&gt;,
+      &lt;span class=&quot;s2&quot;&gt;&quot;client&quot;&lt;/span&gt;:&lt;span class=&quot;s2&quot;&gt;&quot;80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6&quot;&lt;/span&gt;,
+      &lt;span class=&quot;s2&quot;&gt;&quot;message&quot;&lt;/span&gt;: &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;s2&quot;&gt;&quot;local_origin&quot;&lt;/span&gt;:
+            &lt;span class=&quot;s2&quot;&gt;&quot;https://local.80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6.box.knilxof.org:3000&quot;&lt;/span&gt;,
+            &lt;span class=&quot;s2&quot;&gt;&quot;tunnel_origin&quot;&lt;/span&gt;:&lt;span class=&quot;s2&quot;&gt;&quot;https://remote.80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6.box.knilxof.org&quot;&lt;/span&gt;
+      &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;,
+      &lt;span class=&quot;s2&quot;&gt;&quot;timestamp&quot;&lt;/span&gt;:1461335726
+   &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;
+
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;The connection to the box is completely seamless for the user as she is never asked to enter a URL or to add any security exception on her browser.&lt;/p&gt;
@@ -343,31 +538,31 @@ Date: Fri, 22 Apr 2016 14:39:44 GMT
 
 &lt;p&gt;The navigator.mozPay API allows the developer to create payment requests for different payment providers to charge a user for the purchase of a digital good. In order to create each payment request, the developer needs to create a &lt;a href=&quot;http://openid.net/specs/draft-jones-json-web-token-07.html&quot;&gt;JSON Web Token (JWT)&lt;/a&gt; for each payment provider signed with the Application Secret given by each corresponding provider. This token contains the details of the payment request, including the Application Key, which uniquely identifies the developer and the product being sold.&lt;/p&gt;
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;{
-  &quot;iss&quot;: APPLICATION_KEY,
-  &quot;aud&quot;: &quot;marketplace.firefox.com&quot;,
-  ...
-  &quot;request&quot;: {
-    &quot;name&quot;: &quot;Magical Unicorn&quot;,
-    &quot;pricePoint&quot;: 1,
-    &quot;postbackURL&quot;: &quot;https://yourapp.com/postback&quot;,
-    &quot;chargebackURL&quot;: &quot;https://yourapp.com/chargeback&quot;
-  }
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;div class=&quot;language-json highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;iss&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;APPLICATION_KEY&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;aud&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;marketplace.firefox.com&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;...&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;request&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;name&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;Magical Unicorn&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;pricePoint&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;postbackURL&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://yourapp.com/postback&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+    &lt;/span&gt;&lt;span class=&quot;nl&quot;&gt;&quot;chargebackURL&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;https://yourapp.com/chargeback&quot;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+  &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;w&quot;&gt;
+&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Applications using navigator.mozPay asynchronously receive responses about the completion of payment requests through Javascript callbacks and through POST notifications done by the payment provider to the URLs specified by the developer within the JWT request as postbackURL (for payments) and chargebackURL (for refunds) parameters. The application must only rely on the server side notification to determine the result of a purchase.&lt;/p&gt;
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; var request = navigator.mozPay([signedJWT1, signedJWTn]);
- request.onsuccess = function() {
-   console.log(&apos;Payment flow successfully completed&apos; + evt.target.result);
-   // The payment buy flow completed without errors.
-   // This does NOT mean the payment was successful.
-   waitForServerPostback();
- };
- request.onerror = function(evt) {
-   console.log(&apos;navigator.mozPay() error: &apos; + evt.target.errorMsg.name);
- };
+&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt; &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;request&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;navigator&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;mozPay&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;signedJWT1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;signedJWTn&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;onsuccess&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;log&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`Payment flow successfully completed &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;evt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+   &lt;span class=&quot;c1&quot;&gt;// The payment buy flow completed without errors.&lt;/span&gt;
+   &lt;span class=&quot;c1&quot;&gt;// This does NOT mean the payment was successful.&lt;/span&gt;
+   &lt;span class=&quot;nx&quot;&gt;waitForServerPostback&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+ &lt;span class=&quot;nx&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;onerror&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;evt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+   &lt;span class=&quot;nx&quot;&gt;console&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`navigator.mozPay() error: &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;evt&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;target&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;errorMsg&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+ &lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;For more in-depth documentation read the &lt;a href=&quot;https://wiki.mozilla.org/WebAPI/WebPayment&quot;&gt;navigator.mozPay()&lt;/a&gt; spec and the Firefox Marketplace &lt;a href=&quot;https://developer.mozilla.org/en-US/docs/Apps/Publishing/In-app_payments&quot;&gt;guide&lt;/a&gt; to in-app payments.&lt;/p&gt;

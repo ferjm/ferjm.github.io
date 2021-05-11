@@ -21,30 +21,34 @@ Once we had an agreement from both the Telefónica and Mozilla teams, we started
 
 The navigator.mozPay API allows the developer to create payment requests for different payment providers to charge a user for the purchase of a digital good. In order to create each payment request, the developer needs to create a [JSON Web Token (JWT)](http://openid.net/specs/draft-jones-json-web-token-07.html) for each payment provider signed with the Application Secret given by each corresponding provider. This token contains the details of the payment request, including the Application Key, which uniquely identifies the developer and the product being sold.
 
-    {
-      "iss": APPLICATION_KEY,
-      "aud": "marketplace.firefox.com",
-      ...
-      "request": {
-        "name": "Magical Unicorn",
-        "pricePoint": 1,
-        "postbackURL": "https://yourapp.com/postback",
-        "chargebackURL": "https://yourapp.com/chargeback"
-      }
-    }
+```json
+{
+  "iss": APPLICATION_KEY,
+  "aud": "marketplace.firefox.com",
+  ...
+  "request": {
+    "name": "Magical Unicorn",
+    "pricePoint": 1,
+    "postbackURL": "https://yourapp.com/postback",
+    "chargebackURL": "https://yourapp.com/chargeback"
+  }
+}
+```
 
 Applications using navigator.mozPay asynchronously receive responses about the completion of payment requests through Javascript callbacks and through POST notifications done by the payment provider to the URLs specified by the developer within the JWT request as postbackURL (for payments) and chargebackURL (for refunds) parameters. The application must only rely on the server side notification to determine the result of a purchase.
 
-     var request = navigator.mozPay([signedJWT1, signedJWTn]);
-     request.onsuccess = function() {
-       console.log('Payment flow successfully completed' + evt.target.result);
-       // The payment buy flow completed without errors.
-       // This does NOT mean the payment was successful.
-       waitForServerPostback();
-     };
-     request.onerror = function(evt) {
-       console.log('navigator.mozPay() error: ' + evt.target.errorMsg.name);
-     };
+```js
+ const request = navigator.mozPay([signedJWT1, signedJWTn]);
+ request.onsuccess = function() {
+   console.log(`Payment flow successfully completed ${evt.target.result}`);
+   // The payment buy flow completed without errors.
+   // This does NOT mean the payment was successful.
+   waitForServerPostback();
+ };
+ request.onerror = function(evt) {
+   console.error(`navigator.mozPay() error: ${evt.target.errorMsg.name}`);
+ };
+```
 
 For more in-depth documentation read the [navigator.mozPay()](https://wiki.mozilla.org/WebAPI/WebPayment) spec and the Firefox Marketplace [guide](https://developer.mozilla.org/en-US/docs/Apps/Publishing/In-app_payments) to in-app payments.
 

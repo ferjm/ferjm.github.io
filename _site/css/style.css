@@ -45,52 +45,44 @@ body.light .site-footer { border-top-color: #e8e8e8; }
 body.light .footer-col-wrapper { color: #828282; }
 
 /** Dark theme color definitions */
-body.dark { color: #e7e7e7; background-color: #191919; /** Links */ /** Code formatting */ /** Icons */ /** Site header */ /** Page content */ /** Site footer */ }
+body.dark { color: #d9d6d1; background-color: #131415; /** Links */ /** Code formatting */ /** Icons */ /** Site header */ /** Page content */ /** Site footer */ }
 
-body.dark a { color: #cccccc !important; }
+body.dark a { color: #ce75fa !important; }
 
-body.dark a:visited { color: #02060b; }
+body.dark a:visited { color: #4a046c; }
 
-body.dark a:hover { color: #4d4d4d !important; border-color: #a6a6a6; }
+body.dark a:hover { color: white !important; border-color: #e8bffd; }
 
-body.dark a.page-link:hover { color: #e7e7e7; border-color: #4d4d4d; }
+body.dark a.page-link:hover { color: #d9d6d1; border-color: #4a046c; }
 
-body.dark a.postLink { color: #4d4d4d !important; }
+body.dark blockquote { color: #494f52; border-left-color: #e8e8e8; }
 
-body.dark a.postLink:visited { color: #DC143C !important; border-color: #DC143C; }
+body.dark pre, body.dark code { border-color: #494f52; background-color: #25282a; }
 
-body.dark a.post-title-link { color: #4d4d4d !important; }
-
-body.dark a.post-title-link:visited { color: #DC143C !important; border-color: #DC143C; }
-
-body.dark blockquote { color: #A7A7A7; border-left-color: #e8e8e8; }
-
-body.dark pre, body.dark code { border-color: #A7A7A7; background-color: #2f2f33; }
-
-body.dark .icon > svg path { fill: #A7A7A7; }
+body.dark .icon > svg path { fill: #494f52; }
 
 body.dark .site-header { border-top-color: #424242; border-bottom-color: #e8e8e8; }
 
 body.dark .site-title, body.dark .site-title:visited { color: #e8e8e8; }
 
-body.dark .site-navigation { color: #cccccc; }
+body.dark .site-navigation { color: #ce75fa; }
 
-body.dark .page-tagline { color: #cccccc; }
+body.dark .page-tagline { color: #ce75fa; }
 
-body.dark .page-link { color: #cccccc; }
+body.dark .page-link { color: #ce75fa; }
 
-body.dark .site-nav .page-link { color: #e7e7e7; }
+body.dark .site-nav .page-link { color: #d9d6d1; }
 
-@media screen and (max-width: 600px) { body.dark { background-color: #191919; border: 1px solid #e8e8e8; } body.dark .menu-icon > svg path { fill: #424242; } }
+@media screen and (max-width: 600px) { body.dark { background-color: #131415; border: 1px solid #e8e8e8; } body.dark .menu-icon > svg path { fill: #424242; } }
 
-body.dark .post-meta { color: #A7A7A7; }
+body.dark .post-meta { color: #494f52; }
 
 body.dark .site-footer { border-top-color: #e8e8e8; }
 
-body.dark .footer-col-wrapper { color: #A7A7A7; }
+body.dark .footer-col-wrapper { color: #494f52; }
 
 /** Reset some basic elements */
-body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, hr, dl, dd, ol, ul, figure { margin: 0; padding: 0; }
+body, h1, h2, h3, h4, h5, h6, p, blockquote, pre, hr, dl, dd, ol, ul, figure { margin: 0; padding: 0; color: #d0ccc6; }
 
 /** Basic styling */
 body { font: 400 16px/1.5 "PT Sans", Helvetica, Arial, sans-serif; -webkit-text-size-adjust: 100%; -webkit-font-feature-settings: "kern" 1; -moz-font-feature-settings: "kern" 1; -o-font-feature-settings: "kern" 1; font-feature-settings: "kern" 1; font-kerning: normal; }
@@ -150,7 +142,7 @@ pre > code { border: 0; padding-right: 0; padding-left: 0; }
 /** Icons */
 .icon > svg { display: inline-block; width: 16px; height: 16px; vertical-align: middle; }
 
-.post { font-family: "Source Sans Pro"; font-size: 18px; font-weight: 300; padding-top: 0; }
+.post { font-family: "Source Sans Pro"; font-size: 24px; font-weight: 300; padding-top: 0; }
 
 .home { padding-bottom: 5em; }
 
@@ -200,7 +192,7 @@ pre > code { border: 0; padding-right: 0; padding-left: 0; }
 @media screen and (max-width: 600px) { .site-nav { position: absolute; top: 9px; right: 15px; border-radius: 5px; text-align: right; } .site-nav .menu-icon { display: block; float: right; width: 36px; height: 26px; line-height: 0; padding-top: 10px; text-align: center; } .site-nav .menu-icon > svg { width: 18px; height: 15px; } .site-nav .trigger { clear: both; display: none; } .site-nav:hover .trigger { display: block; padding-bottom: 5px; } .site-nav .page-link { display: block; padding: 5px 10px; margin-left: 20px; } .site-nav .page-link:not(:last-child) { margin-right: 0; } }
 
 /** Site footer */
-.site-footer { border-top: 1px solid; padding: 30px 0; }
+.site-footer { padding: 30px 0; }
 
 .footer-heading { font-size: 18px; margin-bottom: 15px; }
 
@@ -256,9 +248,9 @@ pre > code { border: 0; padding-right: 0; padding-left: 0; }
 
 @media screen and (max-width: 800px) { .post-content h3 { font-size: 22px; } }
 
-.post-content h4 { font-size: 20px; }
+.post-content h4 { font-size: 1.5rem; }
 
-@media screen and (max-width: 800px) { .post-content h4 { font-size: 18px; } }
+@media screen and (max-width: 800px) { .post-content h4 { font-size: 1.5rem; } }
 
 /** Pagination */
 .pagination { padding-top: 3.5em; text-align: center; }
@@ -332,25 +324,25 @@ pre > code { border: 0; padding-right: 0; padding-left: 0; }
 
 .highlight .m { color: #099; }
 
-.highlight .s { color: #d14; }
+.highlight .s { color: #ef3564; }
 
-.highlight .na { color: #008080; }
+.highlight .na { color: #72ffff; }
 
 .highlight .nb { color: #0086B3; }
 
-.highlight .nc { color: #458; font-weight: bold; }
+.highlight .nc { color: #8ba6c5; font-weight: bold; }
 
 .highlight .no { color: #008080; }
 
 .highlight .ni { color: #800080; }
 
-.highlight .ne { color: #900; font-weight: bold; }
+.highlight .ne { color: #ff6161; font-weight: bold; }
 
-.highlight .nf { color: #900; font-weight: bold; }
+.highlight .nf { color: #ff6161; font-weight: bold; }
 
 .highlight .nn { color: #555; }
 
-.highlight .nt { color: #000080; }
+.highlight .nt { color: #7faeff; }
 
 .highlight .nv { color: #008080; }
 
@@ -397,5 +389,9 @@ pre > code { border: 0; padding-right: 0; padding-left: 0; }
 .highlight .vi { color: #008080; }
 
 .highlight .il { color: #099; }
+
+video { width: 75%; height: auto   !important; }
+
+@media screen and (max-width: 600px) { video { width: 100%; height: auto   !important; } }
 
 /*# sourceMappingURL=style.css.map */

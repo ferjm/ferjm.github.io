@@ -13,16 +13,16 @@
 
   <link rel="stylesheet" href="/css/style.css">
   <link rel="canonical" href="https://ferjm.github.io/web/payments/api/firefoxos/telefonica/mozilla/2013/04/09/behind-scenes-web-payments-api.html">
-  <link rel="alternate" type="application/rss+xml" title="ferjm" href="https://ferjm.github.io/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="blog" href="https://ferjm.github.io/feed.xml">
   
 </head>
 
 
-  <body class=" light  ">
+  <body class=" dark  ">
 
     
 <div class="wrapper">
-  <center> <a href="/index.html"><div class="site-title">   ferjm </div></a></center>
+  <center> <a href="/index.html"><div class="site-title">   blog </div></a></center>
 </div>
 <div class="wrapper site-description">
 <center>  coding out loud </center>
@@ -35,6 +35,8 @@
     
 
     <span class="exclamationMark">/</span><a class="page-link" href="/about/">About</a>
+    
+    
     
     
     
@@ -79,31 +81,31 @@
 
 <p>The navigator.mozPay API allows the developer to create payment requests for different payment providers to charge a user for the purchase of a digital good. In order to create each payment request, the developer needs to create a <a href="http://openid.net/specs/draft-jones-json-web-token-07.html">JSON Web Token (JWT)</a> for each payment provider signed with the Application Secret given by each corresponding provider. This token contains the details of the payment request, including the Application Key, which uniquely identifies the developer and the product being sold.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
-  "iss": APPLICATION_KEY,
-  "aud": "marketplace.firefox.com",
-  ...
-  "request": {
-    "name": "Magical Unicorn",
-    "pricePoint": 1,
-    "postbackURL": "https://yourapp.com/postback",
-    "chargebackURL": "https://yourapp.com/chargeback"
-  }
-}
-</code></pre></div></div>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"iss"</span><span class="p">:</span><span class="w"> </span><span class="err">APPLICATION_KEY</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"aud"</span><span class="p">:</span><span class="w"> </span><span class="s2">"marketplace.firefox.com"</span><span class="p">,</span><span class="w">
+  </span><span class="err">...</span><span class="w">
+  </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Magical Unicorn"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"pricePoint"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"postbackURL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://yourapp.com/postback"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"chargebackURL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://yourapp.com/chargeback"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
 
 <p>Applications using navigator.mozPay asynchronously receive responses about the completion of payment requests through Javascript callbacks and through POST notifications done by the payment provider to the URLs specified by the developer within the JWT request as postbackURL (for payments) and chargebackURL (for refunds) parameters. The application must only rely on the server side notification to determine the result of a purchase.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code> var request = navigator.mozPay([signedJWT1, signedJWTn]);
- request.onsuccess = function() {
-   console.log('Payment flow successfully completed' + evt.target.result);
-   // The payment buy flow completed without errors.
-   // This does NOT mean the payment was successful.
-   waitForServerPostback();
- };
- request.onerror = function(evt) {
-   console.log('navigator.mozPay() error: ' + evt.target.errorMsg.name);
- };
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">const</span> <span class="nx">request</span> <span class="o">=</span> <span class="nb">navigator</span><span class="p">.</span><span class="nx">mozPay</span><span class="p">([</span><span class="nx">signedJWT1</span><span class="p">,</span> <span class="nx">signedJWTn</span><span class="p">]);</span>
+ <span class="nx">request</span><span class="p">.</span><span class="nx">onsuccess</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Payment flow successfully completed </span><span class="p">${</span><span class="nx">evt</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">result</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+   <span class="c1">// The payment buy flow completed without errors.</span>
+   <span class="c1">// This does NOT mean the payment was successful.</span>
+   <span class="nx">waitForServerPostback</span><span class="p">();</span>
+ <span class="p">};</span>
+ <span class="nx">request</span><span class="p">.</span><span class="nx">onerror</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">`navigator.mozPay() error: </span><span class="p">${</span><span class="nx">evt</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">errorMsg</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+ <span class="p">};</span>
 </code></pre></div></div>
 
 <p>For more in-depth documentation read the <a href="https://wiki.mozilla.org/WebAPI/WebPayment">navigator.mozPay()</a> spec and the Firefox Marketplace <a href="https://developer.mozilla.org/en-US/docs/Apps/Publishing/In-app_payments">guide</a> to in-app payments.</p>
@@ -147,7 +149,7 @@
       <div class="footer-col footer-col-1">
         <ul class="contact-list footer-content">
           <li>Powered By <a href="http://github.com/hemangsk/Gravity">Gravity</a></li>
-          <li>Made with <i class="fa fa-heart"></i> on <a href="http://jekyllrb.com"><span>{ { Jekyll } }</a></span></li>
+          <li>Made with <i class="fa fa-heart"></i> on <a href="http://jekyllrb.com"><span>Jekyll</a></span></li>
 
 
         </ul>

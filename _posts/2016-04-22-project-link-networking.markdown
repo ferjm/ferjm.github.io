@@ -53,18 +53,31 @@ With all the above we ended up implementing the following bootstrap process for 
 
 After the above process is completed, when the user browses to our [client demo application](https://github.com/fxbox/app), the app makes a cross-origin request to the registration server _ping_ endpoint to obtain the URLs the app can use to securely connect to Link.
 
-    GET /ping HTTP/1.1
-    
-    HTTP/1.1 200 OK  
-    Access-Control-Allow-Origin: *  
-    Access-Control-Allow-Headers: accept, authorization, content-type  
-    Content-Type: application/json; charset=utf-8  
-    Access-Control-Allow-Methods: GET, POST, PUT  
-    Content-Length: 312  
-    Date: Fri, 22 Apr 2016 14:39:44 GMT
-    
-    [{"public_ip":"88.xxx.xxx.xxx","client":"80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6","message":"{\"local_origin\":\"https://local.80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6.box.knilxof.org:3000\",\"tunnel_origin\":\"https://remote.80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6.box.knilxof.org\"}","timestamp":1461335726}]
-    
+```sh
+GET /ping HTTP/1.1
+
+HTTP/1.1 200 OK  
+Access-Control-Allow-Origin: *  
+Access-Control-Allow-Headers: accept, authorization, content-type  
+Content-Type: application/json; charset=utf-8  
+Access-Control-Allow-Methods: GET, POST, PUT  
+Content-Length: 312  
+Date: Fri, 22 Apr 2016 14:39:44 GMT
+
+[
+   {
+      "public_ip":"88.xxx.xxx.xxx",
+      "client":"80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6",
+      "message": {
+        "local_origin":
+            "https://local.80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6.box.knilxof.org:3000",
+            "tunnel_origin":"https://remote.80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6.box.knilxof.org"
+      },
+      "timestamp":1461335726
+   }
+]
+
+```
 
 The connection to the box is completely seamless for the user as she is never asked to enter a URL or to add any security exception on her browser.
 

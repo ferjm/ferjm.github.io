@@ -13,16 +13,16 @@
 
   <link rel="stylesheet" href="/css/style.css">
   <link rel="canonical" href="https://ferjm.github.io/mozilla/iot/networking/2016/04/22/project-link-networking.html">
-  <link rel="alternate" type="application/rss+xml" title="ferjm" href="https://ferjm.github.io/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="blog" href="https://ferjm.github.io/feed.xml">
   
 </head>
 
 
-  <body class=" light  ">
+  <body class=" dark  ">
 
     
 <div class="wrapper">
-  <center> <a href="/index.html"><div class="site-title">   ferjm </div></a></center>
+  <center> <a href="/index.html"><div class="site-title">   blog </div></a></center>
 </div>
 <div class="wrapper site-description">
 <center>  coding out loud </center>
@@ -35,6 +35,8 @@
     
 
     <span class="exclamationMark">/</span><a class="page-link" href="/about/">About</a>
+    
+    
     
     
     
@@ -116,17 +118,29 @@
 
 <p>After the above process is completed, when the user browses to our <a href="https://github.com/fxbox/app">client demo application</a>, the app makes a cross-origin request to the registration server <em>ping</em> endpoint to obtain the URLs the app can use to securely connect to Link.</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /ping HTTP/1.1
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>GET /ping HTTP/1.1
 
 HTTP/1.1 200 OK  
-Access-Control-Allow-Origin: *  
+Access-Control-Allow-Origin: <span class="k">*</span>  
 Access-Control-Allow-Headers: accept, authorization, content-type  
-Content-Type: application/json; charset=utf-8  
+Content-Type: application/json<span class="p">;</span> <span class="nv">charset</span><span class="o">=</span>utf-8  
 Access-Control-Allow-Methods: GET, POST, PUT  
 Content-Length: 312  
 Date: Fri, 22 Apr 2016 14:39:44 GMT
 
-[{"public_ip":"88.xxx.xxx.xxx","client":"80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6","message":"{\"local_origin\":\"https://local.80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6.box.knilxof.org:3000\",\"tunnel_origin\":\"https://remote.80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6.box.knilxof.org\"}","timestamp":1461335726}]
+<span class="o">[</span>
+   <span class="o">{</span>
+      <span class="s2">"public_ip"</span>:<span class="s2">"88.xxx.xxx.xxx"</span>,
+      <span class="s2">"client"</span>:<span class="s2">"80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6"</span>,
+      <span class="s2">"message"</span>: <span class="o">{</span>
+        <span class="s2">"local_origin"</span>:
+            <span class="s2">"https://local.80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6.box.knilxof.org:3000"</span>,
+            <span class="s2">"tunnel_origin"</span>:<span class="s2">"https://remote.80a3c3ff0ffc7da455214fe7daaed9216bc4a5a6.box.knilxof.org"</span>
+      <span class="o">}</span>,
+      <span class="s2">"timestamp"</span>:1461335726
+   <span class="o">}</span>
+<span class="o">]</span>
+
 </code></pre></div></div>
 
 <p>The connection to the box is completely seamless for the user as she is never asked to enter a URL or to add any security exception on her browser.</p>
@@ -168,7 +182,7 @@ Date: Fri, 22 Apr 2016 14:39:44 GMT
       <div class="footer-col footer-col-1">
         <ul class="contact-list footer-content">
           <li>Powered By <a href="http://github.com/hemangsk/Gravity">Gravity</a></li>
-          <li>Made with <i class="fa fa-heart"></i> on <a href="http://jekyllrb.com"><span>{ { Jekyll } }</a></span></li>
+          <li>Made with <i class="fa fa-heart"></i> on <a href="http://jekyllrb.com"><span>Jekyll</a></span></li>
 
 
         </ul>

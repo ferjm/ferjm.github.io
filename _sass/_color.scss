@@ -22,14 +22,14 @@ $l-page: $l-link-color;
 /**
  * Dark color palette
  */
-$d-text-color:       #e7e7e7;
-$d-link-color:       #cccccc;
-$d-background-color: #191919;
-$d-brand-color:      #2a7ae2;
-$d-grey-color:       #A7A7A7;
+$d-text-color:       rgb(217, 214, 209);
+$d-link-color:       #ce75fa; //#ca61ff; //#f03c60;
+$d-background-color: rgb(19, 20, 21);
+$d-brand-color:      #ce75fa; //#ca61ff;//#2a7ae2;
+$d-grey-color:       rgb(73, 79, 82);
 $d-grey-color-light: lighten($l-grey-color, 40%);
 $d-grey-color-dark:  darken($l-grey-color, 25%);
-$d-code: #2f2f33;
+$d-code: rgb(37, 40, 42);
 $d-crimson: #DC143C;
 $d-nav: $d-link-color;
 $d-page: $d-link-color;
@@ -169,8 +169,8 @@ body.dark {
     }
 
     &:hover {
-        color: darken($d-link-color, 50%) !important;
-        border-color: darken($d-link-color, 15%);
+        color: lighten($d-link-color, 50%) !important;
+        border-color: lighten($d-link-color, 15%);
     }
 
     &.page-link{
@@ -180,20 +180,8 @@ body.dark {
       }
     }
     &.postLink{
-      color: darken($d-link-color, 50%) !important;
-
-      &:visited {
-          color: $d-crimson !important;
-          border-color: $d-crimson;
-      }
     }
     &.post-title-link{
-      color: darken($d-link-color, 50%) !important;
-
-      &:visited {
-          color: $d-crimson !important;
-          border-color: $d-crimson;
-      }
     }
   }
 

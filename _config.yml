@@ -6,7 +6,7 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: ferjm
+title: blog
 email: ferjmoreno@gmail.com
 description: coding out loud
 baseurl: "" # the subpath of your site, e.g. /blog
@@ -14,7 +14,7 @@ url: "https://ferjm.github.io" # the base hostname & protocol for your site
 twitter_username: f_jimenez
 github_username:  ferjm
 paginate: 5
-theme-dark: false #Set to true to change to dark website theme
+theme-dark: true #Set to true to change to dark website theme
 google_analytics: UA-76885315-1
 
 plugins: [jekyll-paginate, kramdown]

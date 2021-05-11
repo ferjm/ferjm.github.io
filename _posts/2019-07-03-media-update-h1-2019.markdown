@@ -19,13 +19,17 @@ These are some of the selected A/V playback related H1 acomplishments
 
 We significally [improved](https://github.com/servo/servo/pull/22692) the seeking experience of audio and video files by implementing preloading and buffering support and a media cache.
 
-<iframe title="vimeo-player" src="https://player.vimeo.com/video/311414154" width="640" height="360" frameborder="0" allowfullscreen></iframe>
+<div style="text-align:center;">
+    <iframe title="vimeo-player" src="https://player.vimeo.com/video/311414154" width="640" height="360" frameborder="0" allowfullscreen></iframe>
+</div>
 
 #### Basic media controls
 
 After a few months of work we got [partial support for the Shadow DOM API](https://github.com/servo/servo/pull/22743), which gave us the opportunity to implement our first basic set of [media controls](https://github.com/servo/servo/pull/23208).
 
-<img src="https://s3.amazonaws.com/media-p.slid.es/uploads/105177/images/6275339/Jun-19-2019_17-11-57.gif" alt="media controls" width="640"/>
+<div style="text-align:center;">
+    <img src="https://s3.amazonaws.com/media-p.slid.es/uploads/105177/images/6275339/Jun-19-2019_17-11-57.gif" alt="media controls" width="640"/>
+</div>
 
 The UI is not perfect, among other things, because we still have no way to render a progress or volume bar properly, as that depends on the `input type="range">` layout, which so far is rendered as a simple text box instead of the usual slider with a thumb.
 
@@ -33,7 +37,9 @@ The UI is not perfect, among other things, because we still have no way to rende
 
 Another great achievement by [Xavier Claessens](https://github.com/xclaesse) from [Collabora](https://www.collabora.com/) has been the GStreamer backend for [Magic Leap](https://www.magicleap.com/). The work is not completely done yet, but as you can see on the animation bellow, he already managed to paint a full screen video on the Magic Leap device.
 
-<img src="https://s3.amazonaws.com/media-p.slid.es/uploads/105177/images/6274304/Jun-19-2019_13-12-31.gif" alt="magic leap video" width="640"/>
+<div style="text-align:center;">
+    <img src="https://s3.amazonaws.com/media-p.slid.es/uploads/105177/images/6274304/Jun-19-2019_13-12-31.gif" alt="magic leap video" width="640"/>
+</div>
 
 #### Hardware accelerated decoding
 
@@ -43,7 +49,9 @@ Thanks to the excellent and constant work from the [Igalian](https://www.igalia.
 
 We only have support on Linux and Android (EGL and Wayland) so far. Support for other platforms is on the roadmap.
 
-<video src="https://s3.amazonaws.com/media-p.slid.es/videos/105177/rzteE40V/hwacceleration.mp4" width="640" controls></video>
+<div style="text-align:center;">
+    <video src="https://s3.amazonaws.com/media-p.slid.es/videos/105177/rzteE40V/hwacceleration.mp4" width="640" controls></video>
+</div>
 
 The numbers we are getting are already pretty nice. You might not be able to see it clearly on the video, but the renderer CPU time for the non hardware accelerated playback is ~8ms, compared to the ~1ms of CPU time that we get with the accelerated version.
 
@@ -71,7 +79,9 @@ We also got a few additions on the WebAudio land.
 # WebRTC
 Thanks to [jdm](https://github.com/jdm)'s and [Manishearth](https://github.com/Manishearth)'s work, Servo has now the foundations of a [WebRTC implementation](https://github.com/servo/servo/pull/23377) and it is able to perform a 2-way calling with audio and video playback coming from the [getUserMedia API](https://github.com/servo/servo/pull/22780).
 
-<iframe src="https://player.vimeo.com/video/328247783" width="640" height="392" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+<div style="text-align:center;">
+    <iframe src="https://player.vimeo.com/video/328247783" width="640" height="392" frameborder="0" allow="autoplay; fullscreen" allowfullscreen></iframe>
+</div>
 
 ## Next steps
 *That's **not** all folks!* We have exciting plans for the second half of 2019.

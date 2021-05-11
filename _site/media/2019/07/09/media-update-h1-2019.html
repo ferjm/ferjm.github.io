@@ -13,16 +13,16 @@
 
   <link rel="stylesheet" href="/css/style.css">
   <link rel="canonical" href="https://ferjm.github.io/media/2019/07/09/media-update-h1-2019.html">
-  <link rel="alternate" type="application/rss+xml" title="ferjm" href="https://ferjm.github.io/feed.xml">
+  <link rel="alternate" type="application/rss+xml" title="blog" href="https://ferjm.github.io/feed.xml">
   
 </head>
 
 
-  <body class=" light  ">
+  <body class=" dark  ">
 
     
 <div class="wrapper">
-  <center> <a href="/index.html"><div class="site-title">   ferjm </div></a></center>
+  <center> <a href="/index.html"><div class="site-title">   blog </div></a></center>
 </div>
 <div class="wrapper site-description">
 <center>  coding out loud </center>
@@ -35,6 +35,8 @@
     
 
     <span class="exclamationMark">/</span><a class="page-link" href="/about/">About</a>
+    
+    
     
     
     
@@ -77,13 +79,17 @@
 
 <p>We significally <a href="https://github.com/servo/servo/pull/22692">improved</a> the seeking experience of audio and video files by implementing preloading and buffering support and a media cache.</p>
 
-<iframe title="vimeo-player" src="https://player.vimeo.com/video/311414154" width="640" height="360" frameborder="0" allowfullscreen=""></iframe>
+<div style="text-align:center;">
+    <iframe title="vimeo-player" src="https://player.vimeo.com/video/311414154" width="640" height="360" frameborder="0" allowfullscreen=""></iframe>
+</div>
 
 <h4 id="basic-media-controls">Basic media controls</h4>
 
 <p>After a few months of work we got <a href="https://github.com/servo/servo/pull/22743">partial support for the Shadow DOM API</a>, which gave us the opportunity to implement our first basic set of <a href="https://github.com/servo/servo/pull/23208">media controls</a>.</p>
 
-<p><img src="https://s3.amazonaws.com/media-p.slid.es/uploads/105177/images/6275339/Jun-19-2019_17-11-57.gif" alt="media controls" width="640" /></p>
+<div style="text-align:center;">
+    <img src="https://s3.amazonaws.com/media-p.slid.es/uploads/105177/images/6275339/Jun-19-2019_17-11-57.gif" alt="media controls" width="640" />
+</div>
 
 <p>The UI is not perfect, among other things, because we still have no way to render a progress or volume bar properly, as that depends on the <code class="language-plaintext highlighter-rouge">input type="range"&gt;</code> layout, which so far is rendered as a simple text box instead of the usual slider with a thumb.</p>
 
@@ -91,7 +97,9 @@
 
 <p>Another great achievement by <a href="https://github.com/xclaesse">Xavier Claessens</a> from <a href="https://www.collabora.com/">Collabora</a> has been the GStreamer backend for <a href="https://www.magicleap.com/">Magic Leap</a>. The work is not completely done yet, but as you can see on the animation bellow, he already managed to paint a full screen video on the Magic Leap device.</p>
 
-<p><img src="https://s3.amazonaws.com/media-p.slid.es/uploads/105177/images/6274304/Jun-19-2019_13-12-31.gif" alt="magic leap video" width="640" /></p>
+<div style="text-align:center;">
+    <img src="https://s3.amazonaws.com/media-p.slid.es/uploads/105177/images/6274304/Jun-19-2019_13-12-31.gif" alt="magic leap video" width="640" />
+</div>
 
 <h4 id="hardware-accelerated-decoding">Hardware accelerated decoding</h4>
 
@@ -101,7 +109,9 @@
 
 <p>We only have support on Linux and Android (EGL and Wayland) so far. Support for other platforms is on the roadmap.</p>
 
-<video src="https://s3.amazonaws.com/media-p.slid.es/videos/105177/rzteE40V/hwacceleration.mp4" width="640" controls=""></video>
+<div style="text-align:center;">
+    <video src="https://s3.amazonaws.com/media-p.slid.es/videos/105177/rzteE40V/hwacceleration.mp4" width="640" controls=""></video>
+</div>
 
 <p>The numbers we are getting are already pretty nice. You might not be able to see it clearly on the video, but the renderer CPU time for the non hardware accelerated playback is ~8ms, compared to the ~1ms of CPU time that we get with the accelerated version.</p>
 
@@ -133,7 +143,9 @@
 <h1 id="webrtc">WebRTC</h1>
 <p>Thanks to <a href="https://github.com/jdm">jdm</a>’s and <a href="https://github.com/Manishearth">Manishearth</a>’s work, Servo has now the foundations of a <a href="https://github.com/servo/servo/pull/23377">WebRTC implementation</a> and it is able to perform a 2-way calling with audio and video playback coming from the <a href="https://github.com/servo/servo/pull/22780">getUserMedia API</a>.</p>
 
-<iframe src="https://player.vimeo.com/video/328247783" width="640" height="392" frameborder="0" allow="autoplay; fullscreen" allowfullscreen=""></iframe>
+<div style="text-align:center;">
+    <iframe src="https://player.vimeo.com/video/328247783" width="640" height="392" frameborder="0" allow="autoplay; fullscreen" allowfullscreen=""></iframe>
+</div>
 
 <h2 id="next-steps">Next steps</h2>
 <p><em>That’s <strong>not</strong> all folks!</em> We have exciting plans for the second half of 2019.</p>
@@ -174,6 +186,10 @@
     </a>
   
   
+    <a class="postNext" href="/wpe/webkit/android/2021/05/10/wpe-webkit-android.html">
+        WPE WebKit for Android &raquo;
+    </a>
+  
   </footer>
 
 
@@ -192,7 +208,7 @@
       <div class="footer-col footer-col-1">
         <ul class="contact-list footer-content">
           <li>Powered By <a href="http://github.com/hemangsk/Gravity">Gravity</a></li>
-          <li>Made with <i class="fa fa-heart"></i> on <a href="http://jekyllrb.com"><span>{ { Jekyll } }</a></span></li>
+          <li>Made with <i class="fa fa-heart"></i> on <a href="http://jekyllrb.com"><span>Jekyll</a></span></li>
 
 
         </ul>

@@ -1,0 +1,55 @@
+I"S!<p>When we started working on <a href="http://blog.digital.telefonica.com/?press-release=telefonica-outlines-launch-plans-for-firefox-os">Firefox OS</a>, we realized that one of the biggest challenges would be enabling web application developers to securely monetise their content, not only for Firefox OS but for the Open Web in general.</p>
+
+<p>We were looking for the same seamless experience that developers find in existing mobile app stores but we wanted to avoid tying them to any store or proprietary solution, while also allowing them to use the same payment mechanisms in desktop and mobile. We also had the challenge of easing the user’s payment process by adding carrier billing capabilities, along with other payment methods like credit cards, to this solution.</p>
+
+<p>The Mozilla Marketplace team already had an experimental feature based on <a href="https://developers.google.com/commerce/wallet/digital/docs/index">google.payments.inapp.buy</a> to allow developers to add the capability for in-app payments to their apps. However, this solution was tied to the Firefox Marketplace and, as with Google’s solution, it involved the injection of a JS shim in the application code. So even if we liked this approach, we needed to modify it to fulfill our self-imposed requirements.</p>
+
+<p>With <a href="http://andreasgal.com/">Andreas Gal’s</a> help, we started writing the first draft of <a href="https://docs.google.com/document/d/1NLKbHVPQXa9uvDBC3cfgOD7sIrtIxi0qDoXMQrxcCsI/edit">navigator.mozPay()</a> with the intention of proposing the first steps for an API that allows Open Web Apps to initiate payment requests from the user for digital goods with multiple payment providers and carrier billing options.</p>
+
+<p>Once we had an agreement from both the Telefónica and Mozilla teams, we started implementing it for Firefox OS with valuable support from <a href="https://github.com/fabricedesre">Fabrice Desré</a> and <a href="https://github.com/kumar303">Kumar McMillan</a>. Along with this work, the <a href="http://bluevia.com/">BlueVia</a> and Firefox Marketplace teams also started working on a first implementation of the WebPaymentProvider <a href="https://wiki.mozilla.org/WebAPI/WebPaymentProvider">spec</a>, one after the other, and we started working with <a href="http://bango.com/">Bango</a> to enable them as a payment partner.</p>
+
+<p><strong>How it works</strong></p>
+
+<p>The navigator.mozPay API allows the developer to create payment requests for different payment providers to charge a user for the purchase of a digital good. In order to create each payment request, the developer needs to create a <a href="http://openid.net/specs/draft-jones-json-web-token-07.html">JSON Web Token (JWT)</a> for each payment provider signed with the Application Secret given by each corresponding provider. This token contains the details of the payment request, including the Application Key, which uniquely identifies the developer and the product being sold.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"iss"</span><span class="p">:</span><span class="w"> </span><span class="err">APPLICATION_KEY</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"aud"</span><span class="p">:</span><span class="w"> </span><span class="s2">"marketplace.firefox.com"</span><span class="p">,</span><span class="w">
+  </span><span class="err">...</span><span class="w">
+  </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Magical Unicorn"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"pricePoint"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"postbackURL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://yourapp.com/postback"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"chargebackURL"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://yourapp.com/chargeback"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Applications using navigator.mozPay asynchronously receive responses about the completion of payment requests through Javascript callbacks and through POST notifications done by the payment provider to the URLs specified by the developer within the JWT request as postbackURL (for payments) and chargebackURL (for refunds) parameters. The application must only rely on the server side notification to determine the result of a purchase.</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="kd">const</span> <span class="nx">request</span> <span class="o">=</span> <span class="nb">navigator</span><span class="p">.</span><span class="nx">mozPay</span><span class="p">([</span><span class="nx">signedJWT1</span><span class="p">,</span> <span class="nx">signedJWTn</span><span class="p">]);</span>
+ <span class="nx">request</span><span class="p">.</span><span class="nx">onsuccess</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">`Payment flow successfully completed </span><span class="p">${</span><span class="nx">evt</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">result</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+   <span class="c1">// The payment buy flow completed without errors.</span>
+   <span class="c1">// This does NOT mean the payment was successful.</span>
+   <span class="nx">waitForServerPostback</span><span class="p">();</span>
+ <span class="p">};</span>
+ <span class="nx">request</span><span class="p">.</span><span class="nx">onerror</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">evt</span><span class="p">)</span> <span class="p">{</span>
+   <span class="nx">console</span><span class="p">.</span><span class="nx">error</span><span class="p">(</span><span class="s2">`navigator.mozPay() error: </span><span class="p">${</span><span class="nx">evt</span><span class="p">.</span><span class="nx">target</span><span class="p">.</span><span class="nx">errorMsg</span><span class="p">.</span><span class="nx">name</span><span class="p">}</span><span class="s2">`</span><span class="p">);</span>
+ <span class="p">};</span>
+</code></pre></div></div>
+
+<p>For more in-depth documentation read the <a href="https://wiki.mozilla.org/WebAPI/WebPayment">navigator.mozPay()</a> spec and the Firefox Marketplace <a href="https://developer.mozilla.org/en-US/docs/Apps/Publishing/In-app_payments">guide</a> to in-app payments.</p>
+
+<p>The Firefox Marketplace itself uses navigator.mozPay() to request payments for application purchases and so it is a good proof of concept of the usage of the WebPayments API.</p>
+
+<p><strong>What next?</strong></p>
+
+<p>As Mozilla wrote on their <a href="https://hacks.mozilla.org/2013/04/introducing-navigator-mozpay-for-web-payments/">blog</a> last week, navigator.mozPay() is an experimental API and it is just a first step towards an Open Web Standard for payments. We are already working on some improvements like removing the <a href="https://groups.google.com/forum/?fromgroups=#!topic/mozilla.dev.webapps/0vUFHASyWB4">server pre-requisite</a> entirely or a better user experience for the <a href="https://groups.google.com/forum/?fromgroups=#!topic/mozilla.dev.b2g/4-FVBgM577I">payment flow</a> on the payment provider’s side.</p>
+
+<p>The plan is to keep working closely with Mozilla and others through the W3C to make a flexible API for payments part of the Open Web Standards.</p>
+
+<p>After the launch of the first Firefox OS devices, we will be helping Mozilla to add support for navigator.mozPay() to Firefox desktop and Firefox for Android</p>
+
+<p><small>Originally published at <a href="http://en.blogthinkbig.com/2013/04/09/mozilla-web-payments-api/">BlogThinkBig</a></small></p>
+:ET
