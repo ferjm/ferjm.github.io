@@ -33,7 +33,7 @@ we can now run WPE WebKit on an even wider set of devices. Like a pair of XR gla
 instead of [GeckoView](https://mozilla.github.io/geckoview/):
 
 <div style="text-align:center;">
-    <video controls src="/content/videos/2021/05/wpeandroid_fxa.mp4"></video>
+    <video controls src="/content/videos/2021/05/wpeandroid_fxr.mp4"></video>
 </div>
 
 
@@ -156,7 +156,7 @@ of the main repo.
 We welcome contributions of all kinds. Give it a try and [file issues](https://github.com/Igalia/wpe-android/issues/new) as you encounter them.
 And if you feel encouraged enough, send us patches!
 
-## Acknoledgements
+## Acknowledgements
 
 * I would like to thank [Igalia](https://igalia.com) for giving me the time and space to work on this project.
 * Huge thanks to [Žan Doberšek](https://www.igalia.com/igalian/zdobersek) for his amazing work and continuous guidance.
