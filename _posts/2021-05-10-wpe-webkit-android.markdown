@@ -19,7 +19,7 @@ This effort was initiated back in 2017 by my colleague [Žan Doberšek](https://
 
 # How it looks
 
-An image is worth a thousand words. This is how it currently looks running on an Android phone:
+A picture is worth a thousand words. This is how it currently looks running on an Android phone:
 
 <div style="text-align:center;">
     <video controls src="/content/videos/2021/05/wpeandroid_may.mp4"></video>
