@@ -17,6 +17,6 @@ paginate: 5
 theme-dark: true #Set to true to change to dark website theme
 google_analytics: UA-76885315-1
 
-plugins: [jekyll-paginate, kramdown]
+plugins: [jekyll-paginate, kramdown, jekyll-seo-tag]
 # Build settings
 markdown: kramdown
