@@ -5,6 +5,7 @@ date:       2021-05-10
 summary:    Introducing WPE WebKit for Android
 categories: ["wpe", "webkit", "android"]
 author: "Fernando Jiménez"
+image: content/images/2021/05/wpeandroid.png
 ---
 
 WPE WebKit is the official WebKit port for embedded and low-consumption computer devices. It has been designed from the ground-up with performance, small footprint, accelerated content rendering, and simplicity of deployment in mind.
