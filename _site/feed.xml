@@ -5,9 +5,38 @@
     <description>coding out loud</description>
     <link>https://ferjm.github.io/</link>
     <atom:link href="https://ferjm.github.io/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Fri, 15 Oct 2021 09:52:10 +0200</pubDate>
-    <lastBuildDate>Fri, 15 Oct 2021 09:52:10 +0200</lastBuildDate>
+    <pubDate>Thu, 11 Nov 2021 21:24:12 +0100</pubDate>
+    <lastBuildDate>Thu, 11 Nov 2021 21:24:12 +0100</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
+    
+      <item>
+        <title>gst-dots: live view of GStreamer pipelines</title>
+        <description>&lt;p&gt;These days I spend a lot of time dealing with large dynamic &lt;a href=&quot;https://gstreamer.freedesktop.org/&quot;&gt;GStreamer&lt;/a&gt; pipelines.
+More often than not, I find myself stuck in problems that take some careful analysis of the endless stream of debug
+logs that GStreamer produces. In these situations, taking a look at how the pipelines of the application look like really
+helps me with the debugging process. To get this information,
+&lt;a href=&quot;https://gstreamer.freedesktop.org/documentation/tutorials/basic/debugging-tools.html?gi-language=c#getting-pipeline-graphs&quot;&gt;GStreamer has the capability of outputing graph files&lt;/a&gt;
+that describe the topology of your pipelines. The information that you get is really well presented, but the process of
+getting it can be a bit cumbersome when you have to do it over and over. The output files are &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.dot&lt;/code&gt; files that require
+programs like &lt;a href=&quot;http://www.graphviz.org/&quot;&gt;GraphViz&lt;/a&gt; to get a displayable version of the graph. Many GStreamer developers
+end up writing scripts or creating their own tools to ease this process. My version of this kind of tool is &lt;a href=&quot;https://github.com/ferjm/gst-dots&quot;&gt;gst-dots&lt;/a&gt;,
+an extremely simple NodeJS server that watches for GStreamer &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.dot&lt;/code&gt; files in the path defined by the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;GST_DEBUG_DUMP_DOT_DIR&lt;/code&gt; environment
+variable, convert them into SVG images and displays them in a browser with live reload.&lt;/p&gt;
+
+&lt;p&gt;This is how it looks in action.&lt;/p&gt;
+&lt;div style=&quot;text-align:center;&quot;&gt;
+    &lt;video controls=&quot;&quot; src=&quot;/content/videos/2021/11/gst_dots.mp4&quot;&gt;&lt;/video&gt;
+&lt;/div&gt;
+
+</description>
+        <pubDate>Thu, 11 Nov 2021 00:00:00 +0100</pubDate>
+        <link>https://ferjm.github.io/gstreamer/2021/11/11/gst-dots.html</link>
+        <guid isPermaLink="true">https://ferjm.github.io/gstreamer/2021/11/11/gst-dots.html</guid>
+        
+        
+        <category>gstreamer</category>
+        
+      </item>
     
       <item>
         <title>2021 WebKit Contributors Meeting talk - WPE Android</title>

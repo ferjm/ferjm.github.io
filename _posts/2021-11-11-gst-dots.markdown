@@ -1,0 +1,27 @@
+---
+layout:     post
+title:      "gst-dots: live view of GStreamer pipelines"
+date:       2021-11-11
+summary:    Introducing gst-dots, live view of GStreamer pipelines
+categories: ["gstreamer"]
+author: "Fernando Jiménez"
+---
+
+These days I spend a lot of time dealing with large dynamic [GStreamer](https://gstreamer.freedesktop.org/) pipelines.
+More often than not, I find myself stuck in problems that take some careful analysis of the endless stream of debug
+logs that GStreamer produces. In these situations, taking a look at how the pipelines of the application look like really
+helps me with the debugging process. To get this information,
+[GStreamer has the capability of outputing graph files](https://gstreamer.freedesktop.org/documentation/tutorials/basic/debugging-tools.html?gi-language=c#getting-pipeline-graphs)
+that describe the topology of your pipelines. The information that you get is really well presented, but the process of
+getting it can be a bit cumbersome when you have to do it over and over. The output files are `.dot` files that require
+programs like [GraphViz](http://www.graphviz.org/) to get a displayable version of the graph. Many GStreamer developers
+end up writing scripts or creating their own tools to ease this process. My version of this kind of tool is [gst-dots](https://github.com/ferjm/gst-dots),
+an extremely simple NodeJS server that watches for GStreamer `.dot` files in the path defined by the `GST_DEBUG_DUMP_DOT_DIR` environment
+variable, convert them into SVG images and displays them in a browser with live reload.
+
+This is how it looks in action.
+<div style="text-align:center;">
+    <video controls src="/content/videos/2021/11/gst_dots.mp4"></video>
+</div>
+
+
