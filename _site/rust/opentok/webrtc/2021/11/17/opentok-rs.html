@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>opentok-rs: easy WebRTC with Rust</title>
+  <meta name="description" content="OpenTok is Vonage’s(formerly TokBox’s)PaaS (Platform as a Service)that enables developers to easily build custom video experiences within any mobile,web, or ...">
+  <link href='https://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic,700italic|Source+Sans+Pro:400,700,200,300|Josefin+Sans:400,600,700,300' rel='stylesheet' type='text/css'>
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="canonical" href="https://ferjm.github.io/rust/opentok/webrtc/2021/11/17/opentok-rs.html">
+  <link rel="alternate" type="application/rss+xml" title="blog" href="https://ferjm.github.io/feed.xml">
+
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>opentok-rs: easy WebRTC with Rust | blog</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="opentok-rs: easy WebRTC with Rust" />
+<meta name="author" content="Fernando Jiménez" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="OpenTok is Vonage’s (formerly TokBox’s) PaaS (Platform as a Service) that enables developers to easily build custom video experiences within any mobile, web, or desktop application, on top of a WebRTC stack." />
+<meta property="og:description" content="OpenTok is Vonage’s (formerly TokBox’s) PaaS (Platform as a Service) that enables developers to easily build custom video experiences within any mobile, web, or desktop application, on top of a WebRTC stack." />
+<link rel="canonical" href="https://ferjm.github.io/rust/opentok/webrtc/2021/11/17/opentok-rs.html" />
+<meta property="og:url" content="https://ferjm.github.io/rust/opentok/webrtc/2021/11/17/opentok-rs.html" />
+<meta property="og:site_name" content="blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-11-17T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="opentok-rs: easy WebRTC with Rust" />
+<script type="application/ld+json">
+{"headline":"opentok-rs: easy WebRTC with Rust","dateModified":"2021-11-17T00:00:00+01:00","datePublished":"2021-11-17T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://ferjm.github.io/rust/opentok/webrtc/2021/11/17/opentok-rs.html"},"url":"https://ferjm.github.io/rust/opentok/webrtc/2021/11/17/opentok-rs.html","author":{"@type":"Person","name":"Fernando Jiménez"},"@type":"BlogPosting","description":"OpenTok is Vonage’s (formerly TokBox’s) PaaS (Platform as a Service) that enables developers to easily build custom video experiences within any mobile, web, or desktop application, on top of a WebRTC stack.","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  
+</head>
+
+
+  <body class=" dark  ">
+
+    
+<div class="wrapper">
+  <center> <a href="/index.html"><div class="site-title">   blog </div></a></center>
+</div>
+<div class="wrapper site-description">
+<center>  coding out loud </center>
+</div>
+<div class="wrapper">
+  <div class="trigger site-navigation">
+    <a class="page-link" href="https://ferjm.github.io">HOME</a>
+
+    
+    
+
+    <span class="exclamationMark">/</span><a class="page-link" href="/about/">About</a>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+  </div>
+</div>
+
+
+    <div class="page-content">
+      <div class="wrapper">
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <h1 class="post-title" itemprop="name headline"><a class="post-title-link"  href="/rust/opentok/webrtc/2021/11/17/opentok-rs.html">opentok-rs: easy WebRTC with Rust</a></h1>
+  <center>  <p class="post-meta"><time datetime="2021-11-17T00:00:00+01:00" itemprop="datePublished">Nov 17, 2021</time></p>
+    
+     <div class="">
+       <center><p ><strong><span class="authorKeyword">Author</span><span class="small-site-title"> <h2 style="letter-spacing: 3px !important;
+       text-transform: uppercase !important;">Fernando Jiménez</h2></span></strong></p></center>
+
+     </div>
+     
+   </center>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p><a href="https://www.vonage.com/communications-apis/video/">OpenTok</a> is <a href="https://www.vonage.com">Vonage</a>’s
+(formerly <a href="https://en.wikipedia.org/wiki/TokBox">TokBox’s</a>)
+<a href="https://en.wikipedia.org/wiki/Platform_as_a_service">PaaS</a> (Platform as a Service)
+that enables developers to easily build custom video experiences within any mobile,
+web, or desktop application, on top of a <a href="https://en.wikipedia.org/wiki/WebRTC">WebRTC</a>
+stack.</p>
+
+<p>One of the customer projects that I am working on at <a href="https://igalia.com">Igalia</a>
+requires publishing and subscribing to streams to and from OpenTok sessions.
+The main application of this project needs to run on a Linux box and Vonage already
+provides a nice <a href="https://tokbox.com/developer/sdks/linux/">OpenTok C++ SDK for Linux</a>.
+However, the entire application for this customer project is written in Rust so,
+together with my colleague <a href="https://base-art.net/">Philippe Normand</a>, we decided to
+write Rust bindings for the OpenTok C++ SDK.</p>
+
+<p><a href="https://github.com/ferjm/opentok-rs">opentok-rs</a> contains the result of this work.
+There you can find the <a href="https://doc.rust-lang.org/book/ch19-01-unsafe-rust.html#calling-rust-functions-from-other-languages">FFI</a>
+bindings, mostly generated with <a href="https://rust-lang.github.io/rust-bindgen/">bindgen</a>,
+and the safe wrapper API.</p>
+
+<p>We recently published a first version in <a href="https://crates.io/crates/opentok">crates.io</a>.</p>
+
+<p>There is really not much documentation yet, apart from the <a href="https://doc.rust-lang.org/rustdoc/what-is-rustdoc.html">rustdoc</a>
+published <a href="https://ferjm.github.io/opentok-rs/opentok/">here</a>, that is mostly a copy &amp; paste
+of the C++ documentation. But there are a few
+<a href="https://github.com/ferjm/opentok-rs/tree/main/examples/src/bin">examples</a>
+that demonstrate how easy and fast you can write your own custom video experiences.</p>
+
+<h1 id="basic-video-chat-application">Basic video chat application</h1>
+
+<p>With opentok-rs you can write a very basic video chat application like
+<a href="https://github.com/ferjm/opentok-rs/blob/09ac4d8f38dcb5aa443308a2f9e82444530e745e/examples/src/bin/basic_video_chat.rs">this one</a>
+in only a few dozen lines of code.</p>
+
+<div style="text-align:center;">
+<iframe width="560" height="315" src="https://www.youtube-nocookie.com/embed/i48iw0GYgcA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
+</div>
+
+<p>If you are not familiar with the basic concepts of OpenTok, I recommend reading
+the <a href="https://tokbox.com/developer/guides/basics/">official documentation</a> at Vonage’s developer
+site.</p>
+
+<p>In a nutshell, all OpenTok activity occurs within a session, which is somewhat like a “room”
+where clients interact with one another in real-time. Each participant in a session can publish
+streams to the session or subscribe to other participants’ streams.</p>
+
+<p>To connect to OpenTok sessions you need its identifier and a token. For testing purposes, you
+can obtain a session ID and a token from the project page in your <a href="https://tokbox.com/developer/">Vonage Video API</a> account.
+However, in a production application, you will need to dynamically obtain the session ID and
+token from a web service that uses one of the <a href="https://tokbox.com/developer/sdks/server/">Vonage Video API server SDKs</a>.</p>
+
+<p>For a basic chat application you need to create a <a href="https://ferjm.github.io/opentok-rs/opentok/publisher/struct.Publisher.html">Publisher</a>
+instance, to publish your video stream, and a <a href="https://ferjm.github.io/opentok-rs/opentok/subscriber/struct.Subscriber.html">Subscriber</a>
+instance, likely in a different thread, to subscribe to the rest of the streams in the session. Each entity
+may connect to the session separately.</p>
+
+<h3 id="publisher">Publisher</h3>
+
+<p>The OpenTok SDK is heavily based on callbacks. Starting with the session, you need to provide
+a <a href="https://ferjm.github.io/opentok-rs/opentok/session/struct.SessionCallbacks.html">SessionCallbacks</a>
+instance to the <a href="https://ferjm.github.io/opentok-rs/opentok/session/struct.Session.html">Session</a> constructor.
+For the sake of simplicity, we only care about the <code class="language-plaintext highlighter-rouge">on_connected</code> and <code class="language-plaintext highlighter-rouge">on_error</code> callbacks in this case.</p>
+
+<p>You also need to provide the session credentials. This is the Vonage API key, the session ID and its token.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">session_callbacks</span> <span class="o">=</span> <span class="nn">SessionCallbacks</span><span class="p">::</span><span class="nf">builder</span><span class="p">()</span>
+    <span class="nf">.on_connected</span><span class="p">(</span><span class="k">move</span> <span class="p">|</span><span class="n">session</span><span class="p">|</span> <span class="p">{</span>
+        <span class="c">// At this point, we can start publishing</span>
+        <span class="n">session</span><span class="nf">.publish</span><span class="p">(</span><span class="o">&amp;*</span><span class="n">publisher</span><span class="nf">.lock</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">())</span>
+    <span class="p">})</span>
+    <span class="nf">.on_error</span><span class="p">(|</span><span class="mi">_</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="mi">_</span><span class="p">|</span> <span class="p">{</span>
+        <span class="nd">eprintln!</span><span class="p">(</span><span class="s">"on_error {:?}"</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+    <span class="p">})</span>
+    <span class="nf">.build</span><span class="p">();</span>
+<span class="k">let</span> <span class="n">session</span> <span class="o">=</span> <span class="nn">Session</span><span class="p">::</span><span class="nf">new</span><span class="p">(</span>
+    <span class="o">&amp;</span><span class="n">credentials</span><span class="py">.api_key</span><span class="p">,</span>
+    <span class="o">&amp;</span><span class="n">credentials</span><span class="py">.session_id</span><span class="p">,</span>
+    <span class="n">session_callbacks</span><span class="p">,</span>
+<span class="p">)</span><span class="o">?</span><span class="p">;</span>
+<span class="n">session</span><span class="nf">.connect</span><span class="p">(</span><span class="o">&amp;</span><span class="n">credentials</span><span class="py">.token</span><span class="p">)</span><span class="o">?</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>The Publisher constructor gets a <a href="https://ferjm.github.io/opentok-rs/opentok/publisher/struct.PublisherCallbacks.html">PublisherCallbacks</a>
+instance and optionally a <a href="https://ferjm.github.io/opentok-rs/opentok/video_capturer/struct.VideoCapturer.html">VideoCapturer</a> instance.
+If you do not provide a custom video capturer, the default one capturing audio and video from your local mic and webcam will be used.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">publisher_callbacks</span> <span class="o">=</span> <span class="nn">PublisherCallbacks</span><span class="p">::</span><span class="nf">builder</span><span class="p">()</span>
+    <span class="nf">.on_stream_created</span><span class="p">(</span><span class="k">move</span> <span class="p">|</span><span class="mi">_</span><span class="p">,</span> <span class="n">stream</span><span class="p">|</span> <span class="p">{</span>
+        <span class="nd">println!</span><span class="p">(</span><span class="s">"Publishing stream with ID {}"</span><span class="p">,</span> <span class="n">stream</span><span class="nf">.id</span><span class="p">());</span>
+    <span class="p">})</span>
+    <span class="nf">.on_error</span><span class="p">(|</span><span class="mi">_</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="mi">_</span><span class="p">|</span> <span class="p">{</span>
+        <span class="nd">eprintln!</span><span class="p">(</span><span class="s">"on_error {:?}"</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+    <span class="p">})</span>
+    <span class="nf">.build</span><span class="p">();</span>
+<span class="k">let</span> <span class="n">publisher</span> <span class="o">=</span> <span class="nn">Arc</span><span class="p">::</span><span class="nf">new</span><span class="p">(</span><span class="nn">Mutex</span><span class="p">::</span><span class="nf">new</span><span class="p">(</span><span class="nn">Publisher</span><span class="p">::</span><span class="nf">new</span><span class="p">(</span>
+    <span class="s">"publisher"</span> <span class="cm">/* Publisher name */</span><span class="p">,</span>
+    <span class="nb">None</span><span class="p">,</span> <span class="cm">/* Use WebRTC's video capturer */</span><span class="p">,</span>
+    <span class="n">publisher_callbacks</span><span class="p">,</span>
+<span class="p">)));</span>
+
+</code></pre></div></div>
+
+<p>The <a href="https://github.com/ferjm/opentok-rs/blob/09ac4d8f38dcb5aa443308a2f9e82444530e745e/utils/src/publisher.rs#L122">basic video chat example</a>
+demonstrates how to add a custom video capturer. <a href="https://github.com/ferjm/opentok-rs/blob/main/utils/src/capturer.rs#L23">In this case</a>,
+it uses a <a href="https://gstreamer.freedesktop.org/">GStreamer</a> <a href="https://gstreamer.freedesktop.org/documentation/videotestsrc/index.html?gi-language=c">videotestsrc</a>
+element to produce test video data. You can use whatever mechanism to produce video that you prefer though.</p>
+
+<h3 id="subscriber">Subscriber</h3>
+
+<p>The subscriber part is somewhat similar. It needs to connect to the session, providing the credentials
+and the session callbacks. In this case, the callback that we care about the most is the <code class="language-plaintext highlighter-rouge">on_stream_received</code>
+callback. Within this callback, you can set the stream on your Subscriber instance and instruct the session
+to use it.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">session_callbacks</span> <span class="o">=</span> <span class="nn">SessionCallbacks</span><span class="p">::</span><span class="nf">builder</span><span class="p">()</span>
+    <span class="nf">.on_stream_received</span><span class="p">(</span><span class="k">move</span> <span class="p">|</span><span class="n">session</span><span class="p">,</span> <span class="n">stream</span><span class="p">|</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="n">subscriber</span><span class="nf">.set_stream</span><span class="p">(</span><span class="n">stream</span><span class="p">)</span><span class="nf">.is_ok</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="k">let</span> <span class="nf">Err</span><span class="p">(</span><span class="n">e</span><span class="p">)</span> <span class="o">=</span> <span class="n">session</span><span class="nf">.subscribe</span><span class="p">(</span><span class="o">&amp;</span><span class="n">subscriber</span><span class="p">)</span> <span class="p">{</span>
+                <span class="nd">eprintln!</span><span class="p">(</span><span class="s">"Could not subscribe to session {:?}"</span><span class="p">,</span> <span class="n">e</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">})</span>
+    <span class="nf">.on_error</span><span class="p">(|</span><span class="mi">_</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="mi">_</span><span class="p">|</span> <span class="p">{</span>
+        <span class="nd">eprintln!</span><span class="p">(</span><span class="s">"on_error {:?}"</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+    <span class="p">})</span>
+    <span class="nf">.build</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>The Subscriber gets the <a href="https://ferjm.github.io/opentok-rs/opentok/video_frame/struct.VideoFrame.html">video frames</a>
+through repeated calls to the <code class="language-plaintext highlighter-rouge">on_render_frame</code> callback.</p>
+
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">subscriber_callbacks</span> <span class="o">=</span> <span class="nn">SubscriberCallbacks</span><span class="p">::</span><span class="nf">builder</span><span class="p">()</span>
+    <span class="nf">.on_render_frame</span><span class="p">(</span><span class="k">move</span> <span class="p">|</span><span class="mi">_</span><span class="p">,</span> <span class="n">frame</span><span class="p">|</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="n">width</span> <span class="o">=</span> <span class="n">frame</span><span class="nf">.get_width</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">()</span> <span class="k">as</span> <span class="nb">u32</span><span class="p">;</span>
+        <span class="k">let</span> <span class="n">height</span> <span class="o">=</span> <span class="n">frame</span><span class="nf">.get_height</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">()</span> <span class="k">as</span> <span class="nb">u32</span><span class="p">;</span>
+
+        <span class="k">let</span> <span class="n">get_plane_size</span> <span class="o">=</span> <span class="p">|</span><span class="n">format</span><span class="p">,</span> <span class="n">width</span><span class="p">:</span> <span class="nb">u32</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="nb">u32</span><span class="p">|</span> <span class="k">match</span> <span class="n">format</span> <span class="p">{</span>
+            <span class="nn">FramePlane</span><span class="p">::</span><span class="n">Y</span> <span class="k">=&gt;</span> <span class="n">width</span> <span class="o">*</span> <span class="n">height</span><span class="p">,</span>
+            <span class="nn">FramePlane</span><span class="p">::</span><span class="n">U</span> <span class="p">|</span> <span class="nn">FramePlane</span><span class="p">::</span><span class="n">V</span> <span class="k">=&gt;</span> <span class="p">{</span>
+                <span class="k">let</span> <span class="n">pw</span> <span class="o">=</span> <span class="p">(</span><span class="n">width</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">;</span>
+                <span class="k">let</span> <span class="n">ph</span> <span class="o">=</span> <span class="p">(</span><span class="n">height</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&gt;&gt;</span> <span class="mi">1</span><span class="p">;</span>
+                <span class="n">pw</span> <span class="o">*</span> <span class="n">ph</span>
+            <span class="p">}</span>
+            <span class="mi">_</span> <span class="k">=&gt;</span> <span class="nd">unimplemented!</span><span class="p">(),</span>
+        <span class="p">};</span>
+
+        <span class="k">let</span> <span class="n">offset</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="mi">0</span><span class="p">,</span>
+            <span class="nf">get_plane_size</span><span class="p">(</span><span class="nn">FramePlane</span><span class="p">::</span><span class="n">Y</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span> <span class="k">as</span> <span class="nb">usize</span><span class="p">,</span>
+            <span class="nf">get_plane_size</span><span class="p">(</span><span class="nn">FramePlane</span><span class="p">::</span><span class="n">Y</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span> <span class="k">as</span> <span class="nb">usize</span>
+                <span class="o">+</span> <span class="nf">get_plane_size</span><span class="p">(</span><span class="nn">FramePlane</span><span class="p">::</span><span class="n">U</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">height</span><span class="p">)</span> <span class="k">as</span> <span class="nb">usize</span><span class="p">,</span>
+        <span class="p">];</span>
+
+        <span class="k">let</span> <span class="n">stride</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">frame</span><span class="nf">.get_plane_stride</span><span class="p">(</span><span class="nn">FramePlane</span><span class="p">::</span><span class="n">Y</span><span class="p">)</span><span class="nf">.unwrap</span><span class="p">(),</span>
+            <span class="n">frame</span><span class="nf">.get_plane_stride</span><span class="p">(</span><span class="nn">FramePlane</span><span class="p">::</span><span class="n">U</span><span class="p">)</span><span class="nf">.unwrap</span><span class="p">(),</span>
+            <span class="n">frame</span><span class="nf">.get_plane_stride</span><span class="p">(</span><span class="nn">FramePlane</span><span class="p">::</span><span class="n">V</span><span class="p">)</span><span class="nf">.unwrap</span><span class="p">(),</span>
+        <span class="p">];</span>
+        <span class="n">renderer_</span>
+            <span class="nf">.lock</span><span class="p">()</span>
+            <span class="nf">.unwrap</span><span class="p">()</span>
+            <span class="nf">.as_ref</span><span class="p">()</span>
+            <span class="nf">.unwrap</span><span class="p">()</span>
+            <span class="nf">.push_video_buffer</span><span class="p">(</span>
+                <span class="n">frame</span><span class="nf">.get_buffer</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">(),</span>
+                <span class="n">frame</span><span class="nf">.get_format</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">(),</span>
+                <span class="n">width</span><span class="p">,</span>
+                <span class="n">height</span><span class="p">,</span>
+                <span class="o">&amp;</span><span class="n">offset</span><span class="p">,</span>
+                <span class="o">&amp;</span><span class="n">stride</span><span class="p">,</span>
+            <span class="p">);</span>
+    <span class="p">})</span>
+    <span class="nf">.on_error</span><span class="p">(|</span><span class="mi">_</span><span class="p">,</span> <span class="n">error</span><span class="p">,</span> <span class="mi">_</span><span class="p">|</span> <span class="p">{</span>
+        <span class="nd">eprintln!</span><span class="p">(</span><span class="s">"on_error {:?}"</span><span class="p">,</span> <span class="n">error</span><span class="p">);</span>
+    <span class="p">})</span>
+    <span class="nf">.build</span><span class="p">();</span>
+</code></pre></div></div>
+
+<p>The snippet above uses a <a href="https://github.com/ferjm/opentok-rs/blob/main/utils/src/renderer.rs">video renderer</a>
+based on the GStreamer <a href="https://gstreamer.freedesktop.org/documentation/autodetect/autovideosink.html?gi-language=c#autovideosink-page">autovideosink</a>
+element. But just like with the custom video capturer, you can use whatever you like to render your video frames.</p>
+
+<h3 id="audio">Audio</h3>
+
+<p>The OpenTok SDK handles audio and video in different ways. While video streams are independently tied to each
+publisher and each subscriber in a session, audio is tied to a global
+<a href="https://ferjm.github.io/opentok-rs/opentok/audio_device/struct.AudioDevice.html">audio device</a>
+that is shared by all publishers and subscribers.</p>
+
+<p>This design imposes two hard limitations:</p>
+
+<ul>
+  <li>
+    <p>There is no way to obtain the independent audio stream from each participant.
+OpenTok provides a single audio stream which is a mix of every participant’s audio,
+so there is no way to do things like speech-to-text, moderation or any kind of audio
+processing per participant, unless you create a somewhat
+<a href="https://github.com/opentok/opentok-linux-sdk-samples/issues/25#issuecomment-916155032">complex workaround</a>
+where you run each audio subscriber in its own dedicated process.</p>
+  </li>
+  <li>
+    <p>It is not possible to run two instances of the OpenTok SDK in the same process.
+A second instance of the OpenTok SDK overwrites the audio callbacks set from the previous instance.</p>
+  </li>
+</ul>
+
+<p>Vonage claimed to be working on improving this design.</p>
+
+<h1 id="there-is-more">There is more</h1>
+
+<p>Everything in opentok-rs is meant to run on client applications, but as mentioned before, Vonage also
+provides <a href="https://tokbox.com/developer/sdks/server/">server side OpenTok SDKs</a>.</p>
+
+<p><a href="https://github.com/ferjm/opentok-server-rs">opentok-server-rs</a> wraps a minimal subset of the OpenTok
+REST API. It lets developers to securely create sessions and generate tokens for their OpenTok applications.</p>
+
+<p>I started it only to be able to write automatic tests for opentok-rs, so the functionality is limited and will
+hopefully be extended soon.</p>
+
+<h1 id="acknowledgements">Acknowledgements</h1>
+<ul>
+  <li>I would like to thanks <a href="https://www.televic-conference.com/en">Televic Conference</a> for sponsoring this work.</li>
+  <li>Huge thanks to <a href="https://github.com/joliveraortega">José Antonio Olivera</a> from Vonage for
+his continuous guidance and support while writting the bindings.</li>
+</ul>
+
+  </div>
+
+  <footer class="postNavigation">
+  
+    <a class="postPrev" href="/gstreamer/2021/11/11/gst-dots.html">
+        &laquo; gst-dots: live view of GStreamer pipelines
+    </a>
+  
+  
+  </footer>
+
+
+</article>
+
+      </div>
+    </div>
+
+    <footer class="site-footer">
+
+  <div class="wrapper">
+
+    <h2 class="footer-heading small-site-title">ferjm</h2>
+
+    <div class="footer-col-wrapper">
+      <div class="footer-col footer-col-1">
+        <ul class="contact-list footer-content">
+          <li>Powered By <a href="http://github.com/hemangsk/Gravity">Gravity</a></li>
+          <li>Made with <i class="fa fa-heart"></i> on <a href="http://jekyllrb.com"><span>Jekyll</a></span></li>
+
+
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-2 footer-content">
+        <ul class="social-media-list">
+          
+          <li>
+            <a href="https://github.com/ferjm"><span class="icon icon--github"><svg viewBox="0 0 16 16"><path fill="#828282" d="M7.999,0.431c-4.285,0-7.76,3.474-7.76,7.761 c0,3.428,2.223,6.337,5.307,7.363c0.388,0.071,0.53-0.168,0.53-0.374c0-0.184-0.007-0.672-0.01-1.32 c-2.159,0.469-2.614-1.04-2.614-1.04c-0.353-0.896-0.862-1.135-0.862-1.135c-0.705-0.481,0.053-0.472,0.053-0.472 c0.779,0.055,1.189,0.8,1.189,0.8c0.692,1.186,1.816,0.843,2.258,0.645c0.071-0.502,0.271-0.843,0.493-1.037 C4.86,11.425,3.049,10.76,3.049,7.786c0-0.847,0.302-1.54,0.799-2.082C3.768,5.507,3.501,4.718,3.924,3.65 c0,0,0.652-0.209,2.134,0.796C6.677,4.273,7.34,4.187,8,4.184c0.659,0.003,1.323,0.089,1.943,0.261 c1.482-1.004,2.132-0.796,2.132-0.796c0.423,1.068,0.157,1.857,0.077,2.054c0.497,0.542,0.798,1.235,0.798,2.082 c0,2.981-1.814,3.637-3.543,3.829c0.279,0.24,0.527,0.713,0.527,1.437c0,1.037-0.01,1.874-0.01,2.129 c0,0.208,0.14,0.449,0.534,0.373c3.081-1.028,5.302-3.935,5.302-7.362C15.76,3.906,12.285,0.431,7.999,0.431z"/></svg>
+</span><span class="username">ferjm</span></a>
+
+          </li>
+          
+
+          
+          <li>
+            <a href="https://twitter.com/f_jimenez"><span class="icon icon--twitter"><svg viewBox="0 0 16 16"><path fill="#828282" d="M15.969,3.058c-0.586,0.26-1.217,0.436-1.878,0.515c0.675-0.405,1.194-1.045,1.438-1.809c-0.632,0.375-1.332,0.647-2.076,0.793c-0.596-0.636-1.446-1.033-2.387-1.033c-1.806,0-3.27,1.464-3.27,3.27 c0,0.256,0.029,0.506,0.085,0.745C5.163,5.404,2.753,4.102,1.14,2.124C0.859,2.607,0.698,3.168,0.698,3.767 c0,1.134,0.577,2.135,1.455,2.722C1.616,6.472,1.112,6.325,0.671,6.08c0,0.014,0,0.027,0,0.041c0,1.584,1.127,2.906,2.623,3.206 C3.02,9.402,2.731,9.442,2.433,9.442c-0.211,0-0.416-0.021-0.615-0.059c0.416,1.299,1.624,2.245,3.055,2.271 c-1.119,0.877-2.529,1.4-4.061,1.4c-0.264,0-0.524-0.015-0.78-0.046c1.447,0.928,3.166,1.469,5.013,1.469 c6.015,0,9.304-4.983,9.304-9.304c0-0.142-0.003-0.283-0.009-0.423C14.976,4.29,15.531,3.714,15.969,3.058z"/></svg>
+</span><span class="username">f_jimenez</span></a>
+
+          </li>
+          
+        </ul>
+      </div>
+
+      <div class="footer-col footer-col-3 site-description">
+        <p>coding out loud</p>
+      </div>
+    </div>
+
+  </div>
+
+</footer>
+
+
+  </body>
+
+</html>

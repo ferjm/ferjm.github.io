@@ -31,7 +31,7 @@
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="gst-dots: live view of GStreamer pipelines" />
 <script type="application/ld+json">
-{"url":"https://ferjm.github.io/gstreamer/2021/11/11/gst-dots.html","author":{"@type":"Person","name":"Fernando Jiménez"},"@type":"BlogPosting","headline":"gst-dots: live view of GStreamer pipelines","dateModified":"2021-11-11T00:00:00+01:00","datePublished":"2021-11-11T00:00:00+01:00","description":"These days I spend a lot of time dealing with large dynamic GStreamer pipelines. More often than not, I find myself stuck in problems that take some careful analysis of the endless stream of debug logs that GStreamer produces. In these situations, taking a look at how the pipelines of the application look like really helps me with the debugging process. To get this information, GStreamer has the capability of outputing graph files that describe the topology of your pipelines. The information that you get is really well presented, but the process of getting it can be a bit cumbersome when you have to do it over and over. The output files are .dot files that require programs like GraphViz to get a displayable version of the graph. Many GStreamer developers end up writing scripts or creating their own tools to ease this process. My version of this kind of tool is gst-dots, an extremely simple NodeJS server that watches for GStreamer .dot files in the path defined by the GST_DEBUG_DUMP_DOT_DIR environment variable, convert them into SVG images and displays them in a browser with live reload.","mainEntityOfPage":{"@type":"WebPage","@id":"https://ferjm.github.io/gstreamer/2021/11/11/gst-dots.html"},"@context":"https://schema.org"}</script>
+{"headline":"gst-dots: live view of GStreamer pipelines","dateModified":"2021-11-11T00:00:00+01:00","datePublished":"2021-11-11T00:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://ferjm.github.io/gstreamer/2021/11/11/gst-dots.html"},"url":"https://ferjm.github.io/gstreamer/2021/11/11/gst-dots.html","author":{"@type":"Person","name":"Fernando Jiménez"},"@type":"BlogPosting","description":"These days I spend a lot of time dealing with large dynamic GStreamer pipelines. More often than not, I find myself stuck in problems that take some careful analysis of the endless stream of debug logs that GStreamer produces. In these situations, taking a look at how the pipelines of the application look like really helps me with the debugging process. To get this information, GStreamer has the capability of outputing graph files that describe the topology of your pipelines. The information that you get is really well presented, but the process of getting it can be a bit cumbersome when you have to do it over and over. The output files are .dot files that require programs like GraphViz to get a displayable version of the graph. Many GStreamer developers end up writing scripts or creating their own tools to ease this process. My version of this kind of tool is gst-dots, an extremely simple NodeJS server that watches for GStreamer .dot files in the path defined by the GST_DEBUG_DUMP_DOT_DIR environment variable, convert them into SVG images and displays them in a browser with live reload.","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   
@@ -113,6 +113,10 @@ variable, convert them into SVG images and displays them in a browser with live 
         &laquo; 2021 WebKit Contributors Meeting talk - WPE Android
     </a>
   
+  
+    <a class="postNext" href="/rust/opentok/webrtc/2021/11/17/opentok-rs.html">
+        opentok-rs: easy WebRTC with Rust &raquo;
+    </a>
   
   </footer>
 
